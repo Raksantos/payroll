@@ -20,8 +20,9 @@ public class App {
 
         while(option != 0){
             System.out.println("[1] Register an employee.");
+            System.out.println("[2] Remove an employee.");
         
-            System.out.println("\nYour option: ");
+            System.out.print("\nYour option: ");
             option = input.nextInt();
             input.nextLine();
 
@@ -35,6 +36,8 @@ public class App {
                         employees.add(newEmployee);
                         System.out.println("Employeed registered with success\n");
                     }
+                    break;
+                case 2:
                     break;
                 default:
                     System.out.println("\n\nInvalid option!!\n\n");
