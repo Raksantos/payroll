@@ -9,7 +9,7 @@ import payroll.models.Salaried;
 import java.util.UUID;
 
 public class EmployeeController {
-    public static Employee registerNewEmplyee(Scanner input){
+    public static Employee registerNewEmployee(Scanner input){
         Employee employee = null;
         
         String name;

@@ -27,7 +27,7 @@ public class App {
 
             switch(option){
                 case 1:
-                    Employee newEmployee = EmployeeController.registerNewEmplyee(input);
+                    Employee newEmployee = EmployeeController.registerNewEmployee(input);
                     if(newEmployee == null){
                         System.out.println("Employee not registered");
                     }else{
