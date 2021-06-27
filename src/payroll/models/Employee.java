@@ -6,11 +6,17 @@ public class Employee {
     private UUID id;
     private String name;
     private String address;
+    private Double salary;
     
-    public Employee(UUID id, String name, String address){
+    public Employee(){
+
+    }
+
+    public Employee(UUID id, String name, String address, Double salary){
         this.id = id;
         this.name = name;
         this.address = address;
+        this.salary = salary;
     }
 
     public UUID getId() {
@@ -35,5 +41,20 @@ public class Employee {
 
     public void setAddress(String addres) {
         this.address = addres;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString(){
+        String data = "User id: " + getId();
+        data += "\nName: " + getName();
+        return data;
     }
 }

@@ -13,18 +13,17 @@ public class App {
             
             System.out.println("\nYour option: ");
             option = input.nextInt();
-            //input.nextLine();
+            input.nextLine();
 
             switch(option){
                 case 1:
-                    System.out.println("Oi");
                     break;
                 default:
                     System.out.println("\n\nInvalid option!!\n\n");
                     break;
             }
         }
+        input.close();
         System.out.println("Thank you! See you soon.");
-
     }
 }
