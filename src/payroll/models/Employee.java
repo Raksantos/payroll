@@ -53,8 +53,10 @@ public class Employee {
 
     @Override
     public String toString(){
-        String data = "User id: " + getId();
+        String data = "\n\nUser id: " + getId();
         data += "\nName: " + getName();
+        data += "\nAddress: " + getAddress();
+        data += "\nSalary: " + getSalary();
         return data;
     }
 }

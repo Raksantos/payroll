@@ -22,4 +22,14 @@ public class Comissioned extends Employee{
     public void setComission(Double comission) {
         this.comission = comission;
     }
+
+    @Override
+    public String toString(){
+        String data = "\n\nUser id: " + getId();
+        data += "\nName: " + getName();
+        data += "\nAddress: " + getAddress();
+        data += "\nSalary: " + getSalary();
+        data += "\nComission: " + getComission();
+        return data;
+    }
 }
