@@ -1,5 +1,6 @@
 package payroll.controllers;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import payroll.models.Employee;
@@ -62,5 +63,32 @@ public class EmployeeController {
         }
 
         return employee;
+    }
+
+    public static void listEmployees(ArrayList<Employee> employees){
+        for(Employee employee : employees){
+            System.out.println(employee.toString());
+        }
+    }
+
+    public static void removeEmployee(Scanner input, ArrayList<Employee> employees){
+        System.out.print("Inform the id of the employee: ");
+        String id = input.nextLine();
+
+        Employee removedEmployee = null;
+
+        for(Employee employee : employees){
+            if(employee.getId().toString().equals(id)){
+                removedEmployee = employee;
+                employees.remove(employee);
+                break;
+            }
+        }
+
+        if(removedEmployee == null){
+            System.out.println("Couldn't find the informed employee");
+        }else{
+            System.out.println("Employee removed with success");
+        }
     }
 }
