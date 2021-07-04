@@ -1,7 +1,5 @@
 package payroll.models;
 
-import java.util.UUID;
-
 public class Hourly extends Employee{
 
     public Hourly(){
