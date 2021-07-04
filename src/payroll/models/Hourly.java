@@ -8,7 +8,7 @@ public class Hourly extends Employee{
 
     }
 
-    public Hourly(UUID id, String name, String address, Double salary){
-        super(id, name, address, salary);
+    public Hourly(String name, String address, Double salary){
+        super(name, address, salary);
     }
 }

@@ -7,17 +7,18 @@ import payroll.models.Employee;
 import payroll.models.Hourly;
 import payroll.models.Comissioned;
 import payroll.models.Salaried;
-import java.util.UUID;
+import payroll.models.Syndicate;
 
 public class EmployeeController {
     public static Employee registerNewEmployee(Scanner input){
-        Employee employee = null;
-        
+        Employee employee = new Employee();
+        Syndicate syndicate = new Syndicate();
+
         String name;
         String address;
         Double salary;
-        UUID id = UUID.randomUUID();
-        int option;
+        int option, syndicateOption;
+        double tax = 0;
 
         System.out.println("Name of the employee: ");
         name = input.nextLine();
@@ -37,7 +38,7 @@ public class EmployeeController {
                 salary = input.nextDouble();
                 input.nextLine();
 
-                employee = new Hourly(id, name, address, salary);
+                employee = new Hourly(name, address, salary);
                 break;
             case 2:
                 System.out.println("Inform the comissioned salary: ");
@@ -48,19 +49,43 @@ public class EmployeeController {
                 Double comission = input.nextDouble();
                 input.nextLine();
 
-                employee = new Comissioned(id, name, address, salary, comission);
+                employee = new Comissioned(name, address, salary, comission);
                 break;
             case 3:
                 System.out.println("Informe the salaried salary: ");
                 salary = input.nextDouble();
                 input.nextLine();
 
-                employee = new Salaried(id, name, address, salary);
+                employee = new Salaried(name, address, salary);
                 break;
             default:
                 System.out.println("Invalid option!");
                 break;
         }
+
+        System.out.println("Is affiliated to the syndicate? ");
+        System.out.println("[1] - Yes\n[2] - No\n");
+        System.out.print(": ");
+        syndicateOption = input.nextInt();
+
+        switch(syndicateOption){
+            case 1:
+                System.out.print("Inform the tax of the syndicate: ");
+                tax = input.nextDouble();
+
+                syndicate = new Syndicate(employee.getId(), true, tax);
+                employee.setEmployeeSyndicate(syndicate);
+                break;
+            case 2:
+                syndicate = new Syndicate(employee.getId(), false, tax);
+                break;
+            default:
+                System.out.println("Invalid option! Syndicate filiation not registererd to this employee");
+                syndicate = new Syndicate(employee.getId(), false, tax);
+                break;
+        }
+        
+        employee.setEmployeeSyndicate(syndicate);
 
         return employee;
     }
