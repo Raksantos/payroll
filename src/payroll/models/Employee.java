@@ -63,15 +63,18 @@ public class Employee {
 
     @Override
     public String toString(){
-        String data = "\n\nUser id: " + getId();
-        data += "\nName: " + getName();
-        data += "\nAddress: " + getAddress();
-        data += "\nSalary: " + getSalary();
+        String data = "\n\n{\n\tUser id: " + getId();
+        data += "\n\tName: " + getName();
+        data += "\n\tAddress: " + getAddress();
+        data += "\n\tSalary: " + getSalary();
 
         if(this.employeeSyndicate.getIsAffiliated()){
+            data += "\n\tSyndicate: { ";
             data += this.employeeSyndicate.toString();
+            data += "\n\t}";
         }
 
+        data += "\n}";
         return data;
     }
 }

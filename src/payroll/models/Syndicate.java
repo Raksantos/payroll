@@ -52,10 +52,10 @@ public class Syndicate {
 
     @Override
     public String toString(){
-        String data = "\n\nSyndicate Employee id: " + getId();
-        data += "\nEmployee id: " + getEmployeeId();
-        data += "\nAffiliated: " + getIsAffiliated();
-        data += "\nTax: " + getTax();
+        String data = "\n\t\tSyndicate Employee id: " + getId();
+        data += "\n\t\tEmployee id: " + getEmployeeId();
+        data += "\n\t\tAffiliated: " + getIsAffiliated();
+        data += "\n\t\tTax: " + getTax();
         
         return data;
     }

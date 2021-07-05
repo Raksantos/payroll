@@ -24,11 +24,19 @@ public class Comissioned extends Employee{
 
     @Override
     public String toString(){
-        String data = "\n\nUser id: " + getId();
-        data += "\nName: " + getName();
-        data += "\nAddress: " + getAddress();
-        data += "\nSalary: " + getSalary();
-        data += "\nComission: " + getComission();
+        String data = "\n\n{\n\tUser id: " + getId();
+        data += "\n\tName: " + getName();
+        data += "\n\tAddress: " + getAddress();
+        data += "\n\tSalary: " + getSalary();
+        data += "\n\tComission: " + getComission();
+
+        if(this.getEmployeeSyndicate().getIsAffiliated()){
+            data += "\n\tSyndicate: { ";
+            data += this.getEmployeeSyndicate().toString();
+            data += "\n\t}";
+        }
+
+        data += "\n}";
         return data;
     }
 }

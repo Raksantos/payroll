@@ -1,4 +1,4 @@
-package payroll.models;
+package payroll.models.services;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,5 +30,17 @@ public class TimeCard {
 
     public LocalTime getTimeOut() {
         return timeOut;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setTimeEntry(LocalTime timeEntry) {
+        this.timeEntry = timeEntry;
+    }
+
+    public void setTimeOut(LocalTime timeOut) {
+        this.timeOut = timeOut;
     }
 }

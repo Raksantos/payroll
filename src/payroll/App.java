@@ -22,7 +22,7 @@ public class App {
             System.out.println("[0] Exit.");
             System.out.println("[1] Register an employee.");
             System.out.println("[2] Remove an employee.");
-            System.out.println("[3] List employees.");
+            System.out.println("[3] Launch a timecard.");
         
             System.out.print("\nYour option: ");
             option = input.nextInt();
@@ -43,10 +43,17 @@ public class App {
                     }
                     break;
                 case 2:
+                    EmployeeController.listEmployees(employees);    
+
                     EmployeeController.removeEmployee(input, employees);
+                    
                     break;
                 case 3:
-                    EmployeeController.listEmployees(employees);
+                
+                    EmployeeController.listHourly(employees);
+                    
+                    EmployeeController.launchTimeCard(input, employees);
+
                     break;
                 default:
                     System.out.println("\n\nInvalid option!!\n\n");
