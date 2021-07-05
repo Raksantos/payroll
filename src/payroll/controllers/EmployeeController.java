@@ -13,6 +13,7 @@ import payroll.models.Hourly;
 import payroll.models.Comissioned;
 import payroll.models.Salaried;
 import payroll.models.Syndicate;
+import payroll.models.services.SaleResult;
 import payroll.models.services.TimeCard;
 
 public class EmployeeController {
@@ -26,10 +27,10 @@ public class EmployeeController {
         int option, syndicateOption;
         double tax = 0;
 
-        System.out.println("Name of the employee: ");
+        System.out.print("Name of the employee: ");
         name = input.nextLine();
 
-        System.out.println("Address: ");
+        System.out.print("Address: ");
         address = input.nextLine();
 
         System.out.println("Which type is the employee?");
@@ -40,25 +41,25 @@ public class EmployeeController {
 
         switch(option){
             case 1:
-                System.out.println("Inform the hourly salary: ");
+                System.out.print("Inform the hourly salary: ");
                 salary = input.nextDouble();
                 input.nextLine();
 
                 employee = new Hourly(name, address, salary);
                 break;
             case 2:
-                System.out.println("Inform the comissioned salary: ");
+                System.out.print("Inform the comissioned salary: ");
                 salary = input.nextDouble();
                 input.nextLine();
 
-                System.out.println("Inform the comission: ");
+                System.out.print("Inform the comission: ");
                 Double comission = input.nextDouble();
                 input.nextLine();
 
                 employee = new Comissioned(name, address, salary, comission);
                 break;
             case 3:
-                System.out.println("Informe the salaried salary: ");
+                System.out.print("Informe the salaried salary: ");
                 salary = input.nextDouble();
                 input.nextLine();
 
@@ -110,6 +111,14 @@ public class EmployeeController {
         }
     }
 
+    public static void listComissioned(ArrayList<Employee> employees){
+        for(Employee employee : employees){
+            if(employee instanceof Comissioned){
+                System.out.println(employee.toString());
+            }
+        }
+    }
+
     public static void removeEmployee(Scanner input, ArrayList<Employee> employees){
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
@@ -129,6 +138,24 @@ public class EmployeeController {
         }else{
             System.out.println("Employee removed with success");
         }
+    }
+
+    private static ArrayList<Integer> convertDateToArray(String date){
+        List<String> dateData = Stream.of(date.split("-"))
+        .map(elem -> new String(elem))
+        .collect(Collectors.toList());
+
+        int year = Integer.parseInt(dateData.get(0));
+        int month = Integer.parseInt(dateData.get(1));
+        int day = Integer.parseInt(dateData.get(2));
+
+        ArrayList<Integer> data = new ArrayList<Integer>();
+        
+        data.add(year);
+        data.add(month);
+        data.add(day);
+
+        return data;
     }
 
     public static void launchTimeCard(Scanner input, ArrayList<Employee> employees){
@@ -170,18 +197,12 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
+        ArrayList<Integer> dateData = convertDateToArray(date);
+
         LocalTime employeeEntry = LocalTime.of(entryHour, 00, 00);
         LocalTime employeeOut = LocalTime.of(outHour, 00, 00);
 
-        List<String> dateData = Stream.of(date.split("-"))
-        .map(elem -> new String(elem))
-        .collect(Collectors.toList());
-
-        int year = Integer.parseInt(dateData.get(0));
-        int month = Integer.parseInt(dateData.get(1));
-        int day = Integer.parseInt(dateData.get(2));
-
-        LocalDate employeeDate = LocalDate.of(year, month, day);
+        LocalDate employeeDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
 
         TimeCard timeCard = new TimeCard(employeeDate, employeeEntry, employeeOut);
 
@@ -191,4 +212,46 @@ public class EmployeeController {
 
         hourlyEmployee.setTimeCards(newTimeCards);
     }
+
+    public static void launchSaleResult(Scanner input, ArrayList<Employee> employees){
+        if(employees.size() == 0){
+            System.out.println("The list of employees is empty!");
+            return;
+            //Change to an exception in the futre
+        }
+
+        System.out.print("Inform the id of the employee: ");
+        String id = input.nextLine();
+
+        Employee updateEmployee = null;
+
+        for(Employee employee : employees){
+            if(employee.getId().toString().equals(id)){
+                updateEmployee = employee;
+                break;
+            }
+        }
+
+        Comissioned comissionedEmployee = (Comissioned) updateEmployee;
+
+        System.out.print("Inform the value of the sale: ");
+        Double value = input.nextDouble();
+        input.nextLine();
+
+        System.out.print("Inform the date (YYYY-MM-DD): ");
+        String date = input.nextLine();
+
+        ArrayList<Integer> dateData = convertDateToArray(date);
+
+        LocalDate saleDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
+
+        SaleResult newSale = new SaleResult(value, saleDate);
+
+        ArrayList<SaleResult> sales = comissionedEmployee.getSales();
+
+        sales.add(newSale);
+
+        comissionedEmployee.setSales(sales);
+    }
+    
 }

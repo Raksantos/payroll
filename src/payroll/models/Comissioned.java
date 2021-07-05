@@ -1,9 +1,13 @@
 package payroll.models;
 
+import payroll.models.services.SaleResult;
+import java.util.ArrayList;
 
 public class Comissioned extends Employee{
 
     private Double comission;
+
+    private ArrayList<SaleResult> sales;
 
     public Comissioned(){
 
@@ -12,6 +16,7 @@ public class Comissioned extends Employee{
     public Comissioned(String name, String address, Double salary, Double comission){
         super(name, address, salary);
         this.comission = comission;
+        this.sales = new ArrayList<SaleResult>();
     }
 
     public Double getComission() {
@@ -22,6 +27,14 @@ public class Comissioned extends Employee{
         this.comission = comission;
     }
 
+    public ArrayList<SaleResult> getSales() {
+        return sales;
+    }
+
+    public void setSales(ArrayList<SaleResult> sales) {
+        this.sales = sales;
+    }
+
     @Override
     public String toString(){
         String data = "\n\n{\n\tUser id: " + getId();
@@ -29,6 +42,7 @@ public class Comissioned extends Employee{
         data += "\n\tAddress: " + getAddress();
         data += "\n\tSalary: " + getSalary();
         data += "\n\tComission: " + getComission();
+        data += "\n\tSales: " + getSales();
 
         if(this.getEmployeeSyndicate().getIsAffiliated()){
             data += "\n\tSyndicate: { ";
