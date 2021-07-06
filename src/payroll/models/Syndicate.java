@@ -2,6 +2,10 @@ package payroll.models;
 
 import java.util.UUID;
 
+import payroll.models.services.ServiceTax;
+
+import java.util.ArrayList;
+
 public class Syndicate {
     private UUID id;
 
@@ -10,6 +14,8 @@ public class Syndicate {
     private boolean isAffiliated;
 
     private Double tax;
+
+    private ArrayList<ServiceTax> serviceTax;
 
     public Syndicate(){
 
@@ -20,6 +26,7 @@ public class Syndicate {
         this.employeeId = employeeId;
         this.isAffiliated = isAffiliated;
         this.tax = tax;
+        this.serviceTax = new ArrayList<ServiceTax>();
     }
 
     public UUID getId() {
@@ -48,6 +55,10 @@ public class Syndicate {
 
     public boolean getIsAffiliated() {
         return this.isAffiliated;
+    }
+
+    public ArrayList<ServiceTax> getServiceTax() {
+        return serviceTax;
     }
 
     @Override

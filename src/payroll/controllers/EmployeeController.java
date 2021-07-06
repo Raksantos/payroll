@@ -16,6 +16,7 @@ import payroll.models.Syndicate;
 import payroll.models.services.SaleResult;
 import payroll.models.services.TimeCard;
 
+
 public class EmployeeController {
     public static Employee registerNewEmployee(Scanner input){
         Employee employee = null;
@@ -119,6 +120,15 @@ public class EmployeeController {
         }
     }
 
+    private static boolean warningEmptyEmployeesList(ArrayList<Employee> employees){
+        if(employees.size() == 0){
+            System.out.println("\n\nThere aren't employees registered\n\n");
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public static void removeEmployee(Scanner input, ArrayList<Employee> employees){
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
@@ -160,11 +170,7 @@ public class EmployeeController {
 
     public static void launchTimeCard(Scanner input, ArrayList<Employee> employees){
 
-        if(employees.size() == 0){
-            System.out.println("The list of employees is empty!");
-            return;
-            //Change to an exception in the futre
-        }
+        if(warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
@@ -210,15 +216,11 @@ public class EmployeeController {
 
         newTimeCards.add(timeCard);
 
-        hourlyEmployee.setTimeCards(newTimeCards);
+        hourlyEmployee.setTimeCards(newTimeCards);   
     }
 
     public static void launchSaleResult(Scanner input, ArrayList<Employee> employees){
-        if(employees.size() == 0){
-            System.out.println("The list of employees is empty!");
-            return;
-            //Change to an exception in the futre
-        }
+        if(warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
@@ -254,4 +256,7 @@ public class EmployeeController {
         comissionedEmployee.setSales(sales);
     }
     
+    public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
+        if(warningEmptyEmployeesList(employees)) return;
+    }
 }

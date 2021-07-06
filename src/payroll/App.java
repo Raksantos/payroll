@@ -3,13 +3,14 @@ package payroll;
 import java.util.Scanner;
 
 import payroll.controllers.EmployeeController;
+import payroll.exceptions.EmptyEmployeeList;
 import payroll.models.Employee;
 
 import java.util.ArrayList;
 
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EmptyEmployeeList {
         int option = 13;
 
         Scanner input = new Scanner(System.in);
@@ -24,6 +25,8 @@ public class App {
             System.out.println("[2] Remove an employee.");
             System.out.println("[3] Launch a timecard.");
             System.out.println("[4] Launch a sale result.");
+            System.out.println("[5] Launch a service tax.");
+            System.out.println("[6] Change an employee data.");
         
             System.out.print("\nYour option: ");
             option = input.nextInt();
@@ -63,6 +66,10 @@ public class App {
                     break;
                 case 5:
                     EmployeeController.listEmployees(employees);
+
+                    EmployeeController.launchServiceTax(input, employees);
+                    break;
+                case 6:
                     break;
                 default:
                     System.out.println("\n\nInvalid option!!\n\n");
