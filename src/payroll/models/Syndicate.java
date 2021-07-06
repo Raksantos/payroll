@@ -57,6 +57,10 @@ public class Syndicate {
         return this.isAffiliated;
     }
 
+    public void setAffiliated(boolean isAffiliated) {
+        this.isAffiliated = isAffiliated;
+    }
+
     public ArrayList<ServiceTax> getServiceTax() {
         return serviceTax;
     }

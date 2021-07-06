@@ -41,8 +41,8 @@ public class Employee {
         return address;
     }
 
-    public void setAddress(String addres) {
-        this.address = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Double getSalary() {

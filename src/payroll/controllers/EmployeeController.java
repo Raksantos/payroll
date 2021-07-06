@@ -129,6 +129,7 @@ public class EmployeeController {
             case 1:
                 System.out.print("Inform the tax of the syndicate: ");
                 tax = input.nextDouble();
+                input.nextLine();
 
                 syndicate = new Syndicate(employee.getId(), true, tax);
                 employee.setEmployeeSyndicate(syndicate);
@@ -158,13 +159,13 @@ public class EmployeeController {
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 
-        Employee updateEmployee = null;
+        Employee employee = null;
 
-        updateEmployee = findEmployee(employees, id);
+        employee = findEmployee(employees, id);
 
-        if(!wasEmployeeFound(updateEmployee)) return;
+        if(!wasEmployeeFound(employee)) return;
 
-        Hourly hourlyEmployee = (Hourly) updateEmployee;
+        Hourly hourlyEmployee = (Hourly) employee;
 
         System.out.print("Inform the entry hour (HH): ");
         int entryHour = input.nextInt();
@@ -198,13 +199,13 @@ public class EmployeeController {
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 
-        Employee updateEmployee = null;
+        Employee employee = null;
 
-        updateEmployee = findEmployee(employees, id);
+        employee = findEmployee(employees, id);
 
-        if(!wasEmployeeFound(updateEmployee)) return;
+        if(!wasEmployeeFound(employee)) return;
 
-        Comissioned comissionedEmployee = (Comissioned) updateEmployee;
+        Comissioned comissionedEmployee = (Comissioned) employee;
 
         System.out.print("Inform the value of the sale: ");
         Double value = input.nextDouble();
@@ -224,6 +225,95 @@ public class EmployeeController {
         sales.add(newSale);
 
         comissionedEmployee.setSales(sales);
+    }
+
+    public static void updateEmployee(Scanner input, ArrayList<Employee> employees){
+        Employee employee = gettingEmployee(input, employees);
+        Syndicate syndicate = null;
+
+        String name;
+        String address;
+        Double salary;
+        int option, syndicateOption;
+        double tax = 0;
+
+        System.out.print("Name of the employee: ");
+        name = input.nextLine();
+
+        System.out.print("Address: ");
+        address = input.nextLine();
+
+        System.out.println("Which type is the employee?");
+        System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
+        System.out.print(":");
+
+        option = input.nextInt();
+
+        switch(option){
+            case 1:
+                System.out.print("Inform the hourly salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+                break;
+            case 2:
+                System.out.print("Inform the comissioned salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+
+                System.out.print("Inform the comission: ");
+                Double comission = input.nextDouble();
+                input.nextLine();
+
+                break;
+            case 3:
+                System.out.print("Informe the salaried salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+
+                break;
+            default:
+                System.out.println("\nInvalid option!");
+                System.out.println("Employee not registered!\n");
+                return;
+        }
+
+        System.out.println("Is affiliated to the syndicate? ");
+        System.out.println("[1] - Yes\n[2] - No\n");
+        System.out.print(": ");
+        syndicateOption = input.nextInt();
+        input.nextLine();
+
+        syndicate = employee.getEmployeeSyndicate();
+
+        switch(syndicateOption){
+            case 1:
+                System.out.print("Inform the tax of the syndicate: ");
+                tax = input.nextDouble();
+                input.nextLine();
+
+                syndicate.setTax(tax);
+                syndicate.setAffiliated(true);
+
+                break;
+            case 2:
+                syndicate.setTax(0.0);
+                syndicate.setAffiliated(false);
+                break;
+            default:
+                System.out.println("Invalid option! Syndicate filiation not registererd to this employee");
+                syndicate.setTax(0.0);
+                syndicate.setAffiliated(false);
+                break;
+        }
+        
+        employee.setName(name);
+        employee.setAddress(address);
+
+        employee.setEmployeeSyndicate(syndicate);
+
+        System.out.println(employee);
+
+        System.out.println("\nEmployee updated with success!\n");        
     }
     
     public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
@@ -311,6 +401,21 @@ public class EmployeeController {
         } else{
             return false;
         }
+    }
+    
+    private static Employee gettingEmployee(Scanner input, ArrayList<Employee> employees){
+        if(warningEmptyEmployeesList(employees)) return null;
+
+        System.out.print("Inform the id of the employee: ");
+        String id = input.nextLine();
+
+        Employee employee = null;
+
+        employee = findEmployee(employees, id);
+
+        if(!wasEmployeeFound(employee)) return null;
+
+        return employee;
     }
 }
 

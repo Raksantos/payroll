@@ -25,7 +25,7 @@ public class App {
             System.out.println("[3] Launch a timecard.");
             System.out.println("[4] Launch a sale result.");
             System.out.println("[5] Launch a service tax.");
-            System.out.println("[6] Change an employee data.");
+            System.out.println("[6] Update an employee data.");
             System.out.println("[7] List the employees.");
         
             System.out.print("\nYour option: ");
@@ -64,6 +64,9 @@ public class App {
                     EmployeeController.launchServiceTax(input, employees);
                     break;
                 case 6:
+                    EmployeeController.listEmployees(employees);
+
+                    EmployeeController.updateEmployee(input, employees);
                     break;
                 case 7:
                     EmployeeController.listEmployees(employees);
