@@ -63,7 +63,7 @@ public class Employee {
 
     @Override
     public String toString(){
-        String data = "\n\n{\n\tUser id: " + getId();
+        String data = "\n{\n\tUser id: " + getId();
         data += "\n\tName: " + getName();
         data += "\n\tAddress: " + getAddress();
         data += "\n\tSalary: " + getSalary();
@@ -74,7 +74,7 @@ public class Employee {
             data += "\n\t}";
         }
 
-        data += "\n}";
+        data += "\n}\n";
         return data;
     }
 }

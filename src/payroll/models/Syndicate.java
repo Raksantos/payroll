@@ -61,12 +61,17 @@ public class Syndicate {
         return serviceTax;
     }
 
+    public void setServiceTax(ArrayList<ServiceTax> serviceTax) {
+        this.serviceTax = serviceTax;
+    }
+
     @Override
     public String toString(){
         String data = "\n\t\tSyndicate Employee id: " + getId();
         data += "\n\t\tEmployee id: " + getEmployeeId();
         data += "\n\t\tAffiliated: " + getIsAffiliated();
         data += "\n\t\tTax: " + getTax();
+        data += "\n\t\tService Tax: " + getServiceTax();
         
         return data;
     }

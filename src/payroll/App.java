@@ -3,14 +3,13 @@ package payroll;
 import java.util.Scanner;
 
 import payroll.controllers.EmployeeController;
-import payroll.exceptions.EmptyEmployeeList;
 import payroll.models.Employee;
 
 import java.util.ArrayList;
 
 
 public class App {
-    public static void main(String[] args) throws EmptyEmployeeList {
+    public static void main(String[] args) {
         int option = 13;
 
         Scanner input = new Scanner(System.in);
@@ -27,6 +26,7 @@ public class App {
             System.out.println("[4] Launch a sale result.");
             System.out.println("[5] Launch a service tax.");
             System.out.println("[6] Change an employee data.");
+            System.out.println("[7] List the employees.");
         
             System.out.print("\nYour option: ");
             option = input.nextInt();
@@ -37,14 +37,8 @@ public class App {
                     System.out.println("Thank you! See you soon.");
                     break;
                 case 1:
-                    Employee newEmployee = EmployeeController.registerNewEmployee(input);
-                    if(newEmployee == null){
-                        System.out.println("Employee not registered");
-                    }else{
-                        System.out.println(newEmployee.toString());
-                        employees.add(newEmployee);
-                        System.out.println("\nEmployeed registered with success\n");
-                    }
+                    EmployeeController.registerNewEmployee(input, employees);
+                    
                     break;
                 case 2:
                     EmployeeController.listEmployees(employees);    
@@ -70,6 +64,9 @@ public class App {
                     EmployeeController.launchServiceTax(input, employees);
                     break;
                 case 6:
+                    break;
+                case 7:
+                    EmployeeController.listEmployees(employees);
                     break;
                 default:
                     System.out.println("\n\nInvalid option!!\n\n");
