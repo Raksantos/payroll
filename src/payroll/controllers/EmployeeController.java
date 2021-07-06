@@ -235,6 +235,7 @@ public class EmployeeController {
         String address;
         Double salary;
         int option, syndicateOption;
+        Double comission = 0.0;
         double tax = 0;
 
         System.out.print("Name of the employee: ");
@@ -261,7 +262,8 @@ public class EmployeeController {
                 input.nextLine();
 
                 System.out.print("Inform the comission: ");
-                Double comission = input.nextDouble();
+                comission = input.nextDouble();
+
                 input.nextLine();
 
                 break;
@@ -308,10 +310,24 @@ public class EmployeeController {
         
         employee.setName(name);
         employee.setAddress(address);
-
+        employee.setSalary(salary);
         employee.setEmployeeSyndicate(syndicate);
 
-        System.out.println(employee);
+        if(employee instanceof Comissioned){
+            Comissioned updatedEmployee = new Comissioned(employee.getName(), 
+                                                        employee.getAddress(), employee.getSalary(),
+                                                        comission);
+            
+            updatedEmployee.setId(employee.getId());
+            
+            removeSpecificEmployee(employee.getId().toString(), employees);
+
+            employees.add(updatedEmployee);
+
+            System.out.println(updatedEmployee);
+        }else{
+            System.out.println(employee);
+        }
 
         System.out.println("\nEmployee updated with success!\n");        
     }
@@ -416,6 +432,15 @@ public class EmployeeController {
         if(!wasEmployeeFound(employee)) return null;
 
         return employee;
+    }
+
+    private static void removeSpecificEmployee(String id, ArrayList<Employee> employees){
+        for(Employee employee : employees){
+            if(employee.getId().toString().equals(id)){
+                employees.remove(employee);
+                break;
+            }
+        }
     }
 }
 
