@@ -275,7 +275,7 @@ public class EmployeeController {
                 break;
             default:
                 System.out.println("\nInvalid option!");
-                System.out.println("Employee not registered!\n");
+                System.out.println("Employee not updated!\n");
                 return;
         }
 
