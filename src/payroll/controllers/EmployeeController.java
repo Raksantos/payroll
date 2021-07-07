@@ -17,6 +17,8 @@ import payroll.models.services.SaleResult;
 import payroll.models.services.ServiceTax;
 import payroll.models.services.TimeCard;
 
+import payroll.utils.EmployeeUtils;
+
 
 public class EmployeeController {
 
@@ -27,6 +29,7 @@ public class EmployeeController {
     }
 
     public static void listHourly(ArrayList<Employee> employees){
+
         for(Employee employee : employees){
             if(employee instanceof Hourly){
                 System.out.println(employee.toString());
@@ -35,6 +38,7 @@ public class EmployeeController {
     }
 
     public static void listComissioned(ArrayList<Employee> employees){
+
         for(Employee employee : employees){
             if(employee instanceof Comissioned){
                 System.out.println(employee.toString());
@@ -44,7 +48,7 @@ public class EmployeeController {
 
     public static void removeEmployee(Scanner input, ArrayList<Employee> employees){
 
-        if(warningEmptyEmployeesList(employees)) return;
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
@@ -154,16 +158,16 @@ public class EmployeeController {
 
     public static void launchTimeCard(Scanner input, ArrayList<Employee> employees){
 
-        if(warningEmptyEmployeesList(employees)) return;
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 
         Employee employee = null;
 
-        employee = findEmployee(employees, id);
+        employee = EmployeeUtils.findEmployee(employees, id);
 
-        if(!wasEmployeeFound(employee)) return;
+        if(!EmployeeUtils.wasEmployeeFound(employee)) return;
 
         Hourly hourlyEmployee = (Hourly) employee;
 
@@ -177,7 +181,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = convertDateToArray(date);
+        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
 
         LocalTime employeeEntry = LocalTime.of(entryHour, 00, 00);
         LocalTime employeeOut = LocalTime.of(outHour, 00, 00);
@@ -194,16 +198,16 @@ public class EmployeeController {
     }
 
     public static void launchSaleResult(Scanner input, ArrayList<Employee> employees){
-        if(warningEmptyEmployeesList(employees)) return;
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 
         Employee employee = null;
 
-        employee = findEmployee(employees, id);
+        employee = EmployeeUtils.findEmployee(employees, id);
 
-        if(!wasEmployeeFound(employee)) return;
+        if(!EmployeeUtils.wasEmployeeFound(employee)) return;
 
         Comissioned comissionedEmployee = (Comissioned) employee;
 
@@ -214,7 +218,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = convertDateToArray(date);
+        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
 
         LocalDate saleDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
 
@@ -228,7 +232,10 @@ public class EmployeeController {
     }
 
     public static void updateEmployee(Scanner input, ArrayList<Employee> employees){
-        Employee employee = gettingEmployee(input, employees);
+
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
+
+        Employee employee = EmployeeUtils.gettingEmployee(input, employees);
         Syndicate syndicate = null;
 
         String name;
@@ -320,7 +327,7 @@ public class EmployeeController {
             
             updatedEmployee.setId(employee.getId());
             
-            removeSpecificEmployee(employee.getId().toString(), employees);
+            EmployeeUtils.removeSpecificEmployee(employee.getId().toString(), employees);
 
             employees.add(updatedEmployee);
 
@@ -333,16 +340,16 @@ public class EmployeeController {
     }
     
     public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
-        if(warningEmptyEmployeesList(employees)) return;
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
 
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 
         Employee updateEmployee = null;
 
-        updateEmployee = findEmployee(employees, id);
+        updateEmployee = EmployeeUtils.findEmployee(employees, id);
 
-        if(!wasEmployeeFound(updateEmployee)) return;
+        if(!EmployeeUtils.wasEmployeeFound(updateEmployee)) return;
 
         if(!updateEmployee.getEmployeeSyndicate().getIsAffiliated()){
             System.out.println("\nThe employee is not filiated to the syndicate.\n");
@@ -356,7 +363,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = convertDateToArray(date);
+        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
 
         LocalDate serviceTaxDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
 
@@ -369,78 +376,5 @@ public class EmployeeController {
         System.out.println("\nService tax registered with success!\n");
     }
 
-    private static Employee findEmployee(ArrayList<Employee> employees, String id){
-
-        Employee wantedEmployee = null;
-
-        for(Employee employee : employees){
-            if(employee.getId().toString().equals(id)){
-                wantedEmployee = employee;
-                break;
-            }
-        }
-
-        return wantedEmployee;
-    }
-
-    private static boolean wasEmployeeFound(Employee employee){
-        if(employee == null){
-            System.out.println("Employee not found");
-            return false;
-        }
-
-        return true;
-    }
-
-    private static ArrayList<Integer> convertDateToArray(String date){
-        List<String> dateData = Stream.of(date.split("-"))
-        .map(elem -> new String(elem))
-        .collect(Collectors.toList());
-
-        int year = Integer.parseInt(dateData.get(0));
-        int month = Integer.parseInt(dateData.get(1));
-        int day = Integer.parseInt(dateData.get(2));
-
-        ArrayList<Integer> data = new ArrayList<Integer>();
-        
-        data.add(year);
-        data.add(month);
-        data.add(day);
-
-        return data;
-    }
-
-    private static boolean warningEmptyEmployeesList(ArrayList<Employee> employees){
-        if(employees.size() == 0){
-            System.out.println("\n\nThere aren't employees registered\n\n");
-            return true;
-        } else{
-            return false;
-        }
-    }
-    
-    private static Employee gettingEmployee(Scanner input, ArrayList<Employee> employees){
-        if(warningEmptyEmployeesList(employees)) return null;
-
-        System.out.print("Inform the id of the employee: ");
-        String id = input.nextLine();
-
-        Employee employee = null;
-
-        employee = findEmployee(employees, id);
-
-        if(!wasEmployeeFound(employee)) return null;
-
-        return employee;
-    }
-
-    private static void removeSpecificEmployee(String id, ArrayList<Employee> employees){
-        for(Employee employee : employees){
-            if(employee.getId().toString().equals(id)){
-                employees.remove(employee);
-                break;
-            }
-        }
-    }
 }
 

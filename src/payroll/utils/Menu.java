@@ -67,7 +67,11 @@ public class Menu {
                         EmployeeController.updateEmployee(input, employees);
                         break;
                     case 7:
-                        EmployeeController.listEmployees(employees);
+
+                        if(!EmployeeUtils.warningEmptyEmployeesList(employees)){
+                            EmployeeController.listEmployees(employees);
+                        }
+                        
                         break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");
