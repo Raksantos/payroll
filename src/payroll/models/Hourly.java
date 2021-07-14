@@ -12,8 +12,8 @@ public class Hourly extends Employee{
 
     }
 
-    public Hourly(String name, String address, Double salary){
-        super(name, address, salary);
+    public Hourly(String name, String address, Double salary, PaymentData paymentData){
+        super(name, address, salary, paymentData);
         this.timeCards = new ArrayList<TimeCard>();
     }
 

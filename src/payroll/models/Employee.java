@@ -7,17 +7,19 @@ public class Employee {
     private String name;
     private String address;
     private Double salary;
+    private PaymentData paymentData;
     private Syndicate employeeSyndicate;
     
     public Employee(){
 
     }
 
-    public Employee(String name, String address, Double salary){
+    public Employee(String name, String address, Double salary, PaymentData paymentData){
         this.id = UUID.randomUUID();
         this.name = name;
         this.address = address;
         this.salary = salary;
+        this.paymentData = paymentData;
         this.employeeSyndicate = null;
     }
 

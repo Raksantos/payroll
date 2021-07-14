@@ -74,6 +74,11 @@ public class EmployeeController {
         String name;
         String address;
         Double salary;
+        String bank;
+        String agency;
+        String account;
+        String schedule;
+        int paymentMethod;
         int option, syndicateOption;
         double tax = 0;
 
@@ -82,6 +87,21 @@ public class EmployeeController {
 
         System.out.print("Address: ");
         address = input.nextLine();
+
+        System.out.print("Bank: ");
+        bank = input.nextLine();
+
+        System.out.print("Agency: ");
+        agency = input.nextLine();
+
+        System.out.print("Account: ");
+        account = input.nextLine();
+
+        System.out.print("Payment method: ");
+        paymentMethod = input.nextInt();
+
+        PaymentData paymentData = new PaymentData(bank, agency, account, paymentMethod);
+
 
         System.out.println("Which type is the employee?");
         System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
@@ -95,7 +115,7 @@ public class EmployeeController {
                 salary = input.nextDouble();
                 input.nextLine();
 
-                employee = new Hourly(name, address, salary);
+                employee = new Hourly(name, address, salary, paymentData);
                 break;
             case 2:
                 System.out.print("Inform the comissioned salary: ");
@@ -106,14 +126,14 @@ public class EmployeeController {
                 Double comission = input.nextDouble();
                 input.nextLine();
 
-                employee = new Comissioned(name, address, salary, comission);
+                employee = new Comissioned(name, address, salary, comission, paymentData);
                 break;
             case 3:
                 System.out.print("Informe the salaried salary: ");
                 salary = input.nextDouble();
                 input.nextLine();
 
-                employee = new Salaried(name, address, salary);
+                employee = new Salaried(name, address, salary, paymentData);
                 break;
             default:
                 System.out.println("\nInvalid option!");
