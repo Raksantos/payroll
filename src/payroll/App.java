@@ -1,6 +1,4 @@
-package payroll;
-
-import payroll.utils.Menu;
+import utils.Menu;
 
 public class App {
     public static void main(String[] args) {

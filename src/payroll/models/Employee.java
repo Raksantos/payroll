@@ -1,6 +1,7 @@
-package payroll.models;
+package models;
 
 import java.util.UUID;
+import models.services.payment.PaymentData;
 
 public class Employee {
     private UUID id;
@@ -63,12 +64,21 @@ public class Employee {
         this.employeeSyndicate = employeeSyndicate;
     }
 
+    public PaymentData getPaymentData() {
+        return paymentData;
+    }
+
+    public void setPaymentData(PaymentData paymentData) {
+        this.paymentData = paymentData;
+    }
+
     @Override
     public String toString(){
         String data = "\n{\n\tUser id: " + getId();
         data += "\n\tName: " + getName();
         data += "\n\tAddress: " + getAddress();
         data += "\n\tSalary: " + getSalary();
+        data += "\n\tPayment Data: {" + getPaymentData();
 
         if(this.employeeSyndicate.getIsAffiliated()){
             data += "\n\tSyndicate: { ";

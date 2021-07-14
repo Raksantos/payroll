@@ -1,8 +1,9 @@
-package payroll.models;
+package models;
 
 import java.util.ArrayList;
 
-import payroll.models.services.TimeCard;
+import models.services.TimeCard;
+import models.services.payment.PaymentData;
 
 public class Hourly extends Employee{
 
@@ -32,6 +33,7 @@ public class Hourly extends Employee{
         data += "\n\tAddress: " + getAddress();
         data += "\n\tSalary: " + getSalary();
         data += "\n\tTime Cards: " + getTimeCards();
+        data += "\n\tPayment Data: " + getPaymentData();
 
         if(this.getEmployeeSyndicate().getIsAffiliated()){
             data += "\n\tSyndicate: { ";

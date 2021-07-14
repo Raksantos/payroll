@@ -1,3 +1,5 @@
+package models.services.payment;
+
 import java.time.DayOfWeek;
 
 public class PaymentSchedule {

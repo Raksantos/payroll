@@ -1,4 +1,6 @@
-class PaymentData{
+package models.services.payment;
+
+public class PaymentData{
     private String bank;
 
     private String agency;
@@ -13,7 +15,7 @@ class PaymentData{
 
     }
 
-    PaymentData(String bank, String agency, String account, int paymentMethod, String schedule){
+    public PaymentData(String bank, String agency, String account, int paymentMethod, String schedule){
         this.bank = bank;
         this.agency = agency;
         this.account = account;
@@ -63,12 +65,13 @@ class PaymentData{
 
     @Override
     public String toString(){
-        return "Payment data {" +
-            "Bank: " + getBank() +
-            "Agency: " + getAgency() +
-            "Account: " + getAccount() +
-            "Payment Method: " + getPaymentMethod() + '\'' +
-            "Schedule: " + getSchedule() + '\'' +
-            '}';
+        String data =  "\n\t\tBank: " + getBank();
+        data += "\n\t\tAgency: " + getAgency();
+        data += "\n\t\tAccount: " + getAccount();
+        data +=  "\n\t\tPayment Method: " + getPaymentMethod();
+        data += "\n\t\tSchedule: " + getSchedule();
+        data += "\n\t}";
+
+        return data;
     }
 }

@@ -1,7 +1,8 @@
-package payroll.models;
+package models;
 
-import payroll.models.services.SaleResult;
+import models.services.SaleResult;
 import java.util.ArrayList;
+import models.services.payment.PaymentData;
 
 public class Comissioned extends Employee{
 
@@ -43,6 +44,7 @@ public class Comissioned extends Employee{
         data += "\n\tSalary: " + getSalary();
         data += "\n\tComission: " + getComission();
         data += "\n\tSales: " + getSales();
+        data += "\n\tPayment Data: " + getPaymentData();
 
         if(this.getEmployeeSyndicate().getIsAffiliated()){
             data += "\n\tSyndicate: { ";

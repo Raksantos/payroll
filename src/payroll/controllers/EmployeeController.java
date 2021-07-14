@@ -1,20 +1,21 @@
-package payroll.controllers;
+package controllers;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import payroll.models.Employee;
-import payroll.models.Hourly;
-import payroll.models.Comissioned;
-import payroll.models.Salaried;
-import payroll.models.Syndicate;
-import payroll.models.services.SaleResult;
-import payroll.models.services.ServiceTax;
-import payroll.models.services.TimeCard;
+import models.Employee;
+import models.Hourly;
+import models.Comissioned;
+import models.Salaried;
+import models.Syndicate;
+import models.services.SaleResult;
+import models.services.ServiceTax;
+import models.services.TimeCard;
+import models.services.payment.*;
 
-import payroll.utils.EmployeeUtils;
+import utils.EmployeeUtils;
 
 
 public class EmployeeController {
@@ -70,6 +71,7 @@ public class EmployeeController {
     public static void registerNewEmployee(Scanner input, ArrayList<Employee> employees){
         Employee employee = null;
         Syndicate syndicate = null;
+        PaymentData paymentData = null;
 
         String name;
         String address;
@@ -97,10 +99,21 @@ public class EmployeeController {
         System.out.print("Account: ");
         account = input.nextLine();
 
-        System.out.print("Payment method: ");
+        System.out.println("Payment method: ");
+        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
+        System.out.print(":");
         paymentMethod = input.nextInt();
+        input.nextLine();
 
-        PaymentData paymentData = new PaymentData(bank, agency, account, paymentMethod);
+        System.out.print("Schedule: ");
+        schedule = input.nextLine();
+
+        if(paymentMethod > 3 || paymentMethod < 1){
+            System.out.println("\nInvalid payment method");   
+            paymentData = new PaymentData(null, null, null, 0, null); 
+        }else{
+            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
+        }
 
 
         System.out.println("Which type is the employee?");
@@ -254,19 +267,44 @@ public class EmployeeController {
 
         Employee employee = EmployeeUtils.gettingEmployee(input, employees);
         Syndicate syndicate = null;
+        PaymentData paymentData = null;
 
-        String name;
-        String address;
-        Double salary;
-        int option, syndicateOption;
-        Double comission = 0.0;
-        double tax = 0;
+        String name, address, bank, agency, account, schedule;
+        Double salary, comission = 0.0, tax = 0.0;
+        int option, syndicateOption, paymentMethod;
 
         System.out.print("Name of the employee: ");
         name = input.nextLine();
 
         System.out.print("Address: ");
         address = input.nextLine();
+
+        System.out.print("Bank: ");
+        bank = input.nextLine();
+
+        System.out.print("Agency: ");
+        agency = input.nextLine();
+
+        System.out.print("Account: ");
+        account = input.nextLine();
+
+        System.out.println("Payment method: ");
+        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
+        System.out.print(":");
+        paymentMethod = input.nextInt();
+        input.nextLine();
+
+        System.out.print("Schedule: ");
+        schedule = input.nextLine();
+
+        if(paymentMethod > 3 || paymentMethod < 1){
+            System.out.println("\nInvalid payment method");   
+            paymentData = new PaymentData(null, null, null, 0, null); 
+        }else{
+            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
+        }
+
+        employee.setPaymentData(paymentData);
 
         System.out.println("Which type is the employee?");
         System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
@@ -340,7 +378,7 @@ public class EmployeeController {
         if(employee instanceof Comissioned){
             Comissioned updatedEmployee = new Comissioned(employee.getName(), 
                                                         employee.getAddress(), employee.getSalary(),
-                                                        comission);
+                                                        comission, paymentData);
             
             updatedEmployee.setId(employee.getId());
             

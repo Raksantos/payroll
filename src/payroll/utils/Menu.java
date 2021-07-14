@@ -1,11 +1,11 @@
-package payroll.utils;
+package utils;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import payroll.controllers.EmployeeController;
-import payroll.models.Employee;
+import controllers.EmployeeController;
+import models.Employee;
 
 public class Menu {
     public static void menu(){

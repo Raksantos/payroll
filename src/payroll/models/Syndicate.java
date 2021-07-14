@@ -1,8 +1,8 @@
-package payroll.models;
+package models;
 
 import java.util.UUID;
 
-import payroll.models.services.ServiceTax;
+import models.services.ServiceTax;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,6 @@
-package payroll.models;
+package models;
+
+import models.services.payment.PaymentData;
 
 public class Salaried extends Employee{
     
