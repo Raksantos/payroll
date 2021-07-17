@@ -1,19 +1,20 @@
 package utils;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import controllers.EmployeeController;
-import models.Employee;
+import controllers.PaymentController;
+import models.Company;
 
 public class Menu {
     public static void menu(){
+
+        Company company = new Company();
+
         int option = 13;
 
         Scanner input = new Scanner(System.in);
-
-        ArrayList<Employee> employees = new ArrayList<Employee>();
         
         try{
             while(option != 0){
@@ -35,43 +36,47 @@ public class Menu {
                         System.out.println("Thank you! See you soon.");
                         break;
                     case 1:
-                        EmployeeController.registerNewEmployee(input, employees);
+                        EmployeeController.registerNewEmployee(input, company.getEmployees());
                         
                         break;
                     case 2:
-                        EmployeeController.listEmployees(employees);    
+                        EmployeeController.listEmployees(company.getEmployees());    
     
-                        EmployeeController.removeEmployee(input, employees);
+                        EmployeeController.removeEmployee(input, company.getEmployees());
                         
                         break;
                     case 3:
                     
-                        EmployeeUtils.listHourly(employees);
+                        EmployeeUtils.listHourly(company.getEmployees());
                         
-                        EmployeeController.launchTimeCard(input, employees);
+                        EmployeeController.launchTimeCard(input, company.getEmployees());
     
                         break;
                     case 4:
-                        EmployeeUtils.listComissioned(employees);
+                        EmployeeUtils.listComissioned(company.getEmployees());
     
-                        EmployeeController.launchSaleResult(input, employees);
+                        EmployeeController.launchSaleResult(input, company.getEmployees());
                         break;
                     case 5:
-                        EmployeeController.listEmployees(employees);
+                        EmployeeController.listEmployees(company.getEmployees());
     
-                        EmployeeController.launchServiceTax(input, employees);
+                        EmployeeController.launchServiceTax(input, company.getEmployees());
                         break;
                     case 6:
-                        EmployeeController.listEmployees(employees);
+                        EmployeeController.listEmployees(company.getEmployees());
     
-                        EmployeeController.updateEmployee(input, employees);
+                        EmployeeController.updateEmployee(input, company.getEmployees());
                         break;
                     case 7:
 
-                        if(!EmployeeUtils.warningEmptyEmployeesList(employees)){
-                            EmployeeController.listEmployees(employees);
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+                            EmployeeController.listEmployees(company.getEmployees());
                         }
                         
+                        break;
+                    case 8:
+                        PaymentController.LaunchPayroll(input, company);
+
                         break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");
