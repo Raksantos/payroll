@@ -9,13 +9,13 @@ public class PaymentData{
 
     private int paymentMethod;
 
-    private String schedule;
+    private int schedule;
 
     PaymentData(){
 
     }
 
-    public PaymentData(String bank, String agency, String account, int paymentMethod, String schedule){
+    public PaymentData(String bank, String agency, String account, int paymentMethod, int schedule){
         this.bank = bank;
         this.agency = agency;
         this.account = account;
@@ -39,7 +39,7 @@ public class PaymentData{
         return paymentMethod;
     }
 
-    public String getSchedule() {
+    public int getSchedule() {
         return schedule;
     }
 
@@ -59,7 +59,7 @@ public class PaymentData{
         this.paymentMethod = paymentMethod;
     }
 
-    public void setSchedule(String schedule) {
+    public void setSchedule(int schedule) {
         this.schedule = schedule;
     }
 

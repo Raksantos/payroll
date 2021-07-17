@@ -46,13 +46,13 @@ public class Menu {
                         break;
                     case 3:
                     
-                        EmployeeController.listHourly(employees);
+                        EmployeeUtils.listHourly(employees);
                         
                         EmployeeController.launchTimeCard(input, employees);
     
                         break;
                     case 4:
-                        EmployeeController.listComissioned(employees);
+                        EmployeeUtils.listComissioned(employees);
     
                         EmployeeController.launchSaleResult(input, employees);
                         break;

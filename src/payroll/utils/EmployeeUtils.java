@@ -6,9 +6,31 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import models.Employee;
+import models.*;
+import models.services.payment.PaymentData;
+import utils.*;
+
 
 public class EmployeeUtils {
+
+    public static void listHourly(ArrayList<Employee> employees){
+
+        for(Employee employee : employees){
+            if(employee instanceof Hourly){
+                System.out.println(employee.toString());
+            }
+        }
+    }
+
+    public static void listComissioned(ArrayList<Employee> employees){
+
+        for(Employee employee : employees){
+            if(employee instanceof Comissioned){
+                System.out.println(employee.toString());
+            }
+        }
+    }
+
     public static boolean wasEmployeeFound(Employee employee){
         if(employee == null){
             System.out.println("Employee not found");
@@ -81,5 +103,115 @@ public class EmployeeUtils {
         }
 
         return wantedEmployee;
+    }
+
+    public static ValueHolder readEmplyeeBasicData(Scanner input){
+        String name, address, bank, agency, account;
+        
+        Double salary, comission = 0.0, tax = 0.0;
+        
+        int option, syndicateOption, paymentMethod, schedule;
+        
+        PaymentData paymentData = null;
+        Syndicate syndicate = null;
+        Employee employee = null;
+
+        System.out.print("Name of the employee: ");
+        name = input.nextLine();
+
+        System.out.print("Address: ");
+        address = input.nextLine();
+
+        System.out.print("Bank: ");
+        bank = input.nextLine();
+
+        System.out.print("Agency: ");
+        agency = input.nextLine();
+
+        System.out.print("Account: ");
+        account = input.nextLine();
+
+        System.out.println("Payment method: ");
+        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
+        System.out.print(":");
+        paymentMethod = input.nextInt();
+        input.nextLine();
+
+        System.out.println("Schedule: ");
+        System.out.println("1 - Monthly\n2 - Weekly\n3 - Bi-weekly");
+        System.out.print(":");
+        schedule = input.nextInt();
+
+        if(paymentMethod > 3 || paymentMethod < 1){
+            System.out.println("\nInvalid payment method");   
+            paymentData = new PaymentData(null, null, null, 0, 0); 
+        }else{
+            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
+        }
+
+
+        System.out.println("Which type is the employee?");
+        System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
+        System.out.print(":");
+
+        option = input.nextInt();
+
+        switch(option){
+            case 1:
+                System.out.print("Inform the hourly salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+
+                employee = new Hourly(name, address, salary, paymentData);
+                break;
+            case 2:
+                System.out.print("Inform the comissioned salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+
+                System.out.print("Inform the comission: ");
+                comission = input.nextDouble();
+                input.nextLine();
+
+                employee = new Comissioned(name, address, salary, comission, paymentData);
+                break;
+            case 3:
+                System.out.print("Informe the salaried salary: ");
+                salary = input.nextDouble();
+                input.nextLine();
+
+                employee = new Salaried(name, address, salary, paymentData);
+                break;
+            default:
+                System.out.println("\nInvalid option!");
+                return new ValueHolder(employee, comission);
+        }
+
+        System.out.println("Is affiliated to the syndicate? ");
+        System.out.println("[1] - Yes\n[2] - No\n");
+        System.out.print(": ");
+        syndicateOption = input.nextInt();
+
+        switch(syndicateOption){
+            case 1:
+                System.out.print("Inform the tax of the syndicate: ");
+                tax = input.nextDouble();
+                input.nextLine();
+
+                syndicate = new Syndicate(employee.getId(), true, tax);
+                employee.setEmployeeSyndicate(syndicate);
+                break;
+            case 2:
+                syndicate = new Syndicate(employee.getId(), false, tax);
+                break;
+            default:
+                System.out.println("Invalid option! Syndicate filiation not registererd to this employee");
+                syndicate = new Syndicate(employee.getId(), false, tax);
+                break;
+        }
+        
+        employee.setEmployeeSyndicate(syndicate);
+
+        return new ValueHolder(employee, comission);
     }
 }

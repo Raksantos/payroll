@@ -5,42 +5,17 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import models.Employee;
-import models.Hourly;
-import models.Comissioned;
-import models.Salaried;
-import models.Syndicate;
-import models.services.SaleResult;
-import models.services.ServiceTax;
-import models.services.TimeCard;
-import models.services.payment.*;
+import models.*;
+import models.services.*;
 
 import utils.EmployeeUtils;
-
+import utils.ValueHolder;
 
 public class EmployeeController {
 
     public static void listEmployees(ArrayList<Employee> employees){
         for(Employee employee : employees){
             System.out.println(employee.toString());
-        }
-    }
-
-    public static void listHourly(ArrayList<Employee> employees){
-
-        for(Employee employee : employees){
-            if(employee instanceof Hourly){
-                System.out.println(employee.toString());
-            }
-        }
-    }
-
-    public static void listComissioned(ArrayList<Employee> employees){
-
-        for(Employee employee : employees){
-            if(employee instanceof Comissioned){
-                System.out.println(employee.toString());
-            }
         }
     }
 
@@ -70,114 +45,13 @@ public class EmployeeController {
 
     public static void registerNewEmployee(Scanner input, ArrayList<Employee> employees){
         Employee employee = null;
-        Syndicate syndicate = null;
-        PaymentData paymentData = null;
 
-        String name;
-        String address;
-        Double salary;
-        String bank;
-        String agency;
-        String account;
-        String schedule;
-        int paymentMethod;
-        int option, syndicateOption;
-        double tax = 0;
+        employee = EmployeeUtils.readEmplyeeBasicData(input).getEmployee();
 
-        System.out.print("Name of the employee: ");
-        name = input.nextLine();
-
-        System.out.print("Address: ");
-        address = input.nextLine();
-
-        System.out.print("Bank: ");
-        bank = input.nextLine();
-
-        System.out.print("Agency: ");
-        agency = input.nextLine();
-
-        System.out.print("Account: ");
-        account = input.nextLine();
-
-        System.out.println("Payment method: ");
-        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
-        System.out.print(":");
-        paymentMethod = input.nextInt();
-        input.nextLine();
-
-        System.out.print("Schedule: ");
-        schedule = input.nextLine();
-
-        if(paymentMethod > 3 || paymentMethod < 1){
-            System.out.println("\nInvalid payment method");   
-            paymentData = new PaymentData(null, null, null, 0, null); 
-        }else{
-            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
+        if(employee == null){
+            System.out.println("\nEmployee not registered!\n");
+            return;
         }
-
-
-        System.out.println("Which type is the employee?");
-        System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
-        System.out.print(":");
-
-        option = input.nextInt();
-
-        switch(option){
-            case 1:
-                System.out.print("Inform the hourly salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-
-                employee = new Hourly(name, address, salary, paymentData);
-                break;
-            case 2:
-                System.out.print("Inform the comissioned salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-
-                System.out.print("Inform the comission: ");
-                Double comission = input.nextDouble();
-                input.nextLine();
-
-                employee = new Comissioned(name, address, salary, comission, paymentData);
-                break;
-            case 3:
-                System.out.print("Informe the salaried salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-
-                employee = new Salaried(name, address, salary, paymentData);
-                break;
-            default:
-                System.out.println("\nInvalid option!");
-                System.out.println("Employee not registered!\n");
-                return;
-        }
-
-        System.out.println("Is affiliated to the syndicate? ");
-        System.out.println("[1] - Yes\n[2] - No\n");
-        System.out.print(": ");
-        syndicateOption = input.nextInt();
-
-        switch(syndicateOption){
-            case 1:
-                System.out.print("Inform the tax of the syndicate: ");
-                tax = input.nextDouble();
-                input.nextLine();
-
-                syndicate = new Syndicate(employee.getId(), true, tax);
-                employee.setEmployeeSyndicate(syndicate);
-                break;
-            case 2:
-                syndicate = new Syndicate(employee.getId(), false, tax);
-                break;
-            default:
-                System.out.println("Invalid option! Syndicate filiation not registererd to this employee");
-                syndicate = new Syndicate(employee.getId(), false, tax);
-                break;
-        }
-        
-        employee.setEmployeeSyndicate(syndicate);
 
         employees.add(employee);
 
@@ -261,138 +135,6 @@ public class EmployeeController {
         comissionedEmployee.setSales(sales);
     }
 
-    public static void updateEmployee(Scanner input, ArrayList<Employee> employees){
-
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
-
-        Employee employee = EmployeeUtils.gettingEmployee(input, employees);
-        Syndicate syndicate = null;
-        PaymentData paymentData = null;
-
-        String name, address, bank, agency, account, schedule;
-        Double salary, comission = 0.0, tax = 0.0;
-        int option, syndicateOption, paymentMethod;
-
-        System.out.print("Name of the employee: ");
-        name = input.nextLine();
-
-        System.out.print("Address: ");
-        address = input.nextLine();
-
-        System.out.print("Bank: ");
-        bank = input.nextLine();
-
-        System.out.print("Agency: ");
-        agency = input.nextLine();
-
-        System.out.print("Account: ");
-        account = input.nextLine();
-
-        System.out.println("Payment method: ");
-        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
-        System.out.print(":");
-        paymentMethod = input.nextInt();
-        input.nextLine();
-
-        System.out.print("Schedule: ");
-        schedule = input.nextLine();
-
-        if(paymentMethod > 3 || paymentMethod < 1){
-            System.out.println("\nInvalid payment method");   
-            paymentData = new PaymentData(null, null, null, 0, null); 
-        }else{
-            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
-        }
-
-        employee.setPaymentData(paymentData);
-
-        System.out.println("Which type is the employee?");
-        System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");
-        System.out.print(":");
-
-        option = input.nextInt();
-
-        switch(option){
-            case 1:
-                System.out.print("Inform the hourly salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-                break;
-            case 2:
-                System.out.print("Inform the comissioned salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-
-                System.out.print("Inform the comission: ");
-                comission = input.nextDouble();
-
-                input.nextLine();
-
-                break;
-            case 3:
-                System.out.print("Informe the salaried salary: ");
-                salary = input.nextDouble();
-                input.nextLine();
-
-                break;
-            default:
-                System.out.println("\nInvalid option!");
-                System.out.println("Employee not updated!\n");
-                return;
-        }
-
-        System.out.println("Is affiliated to the syndicate? ");
-        System.out.println("[1] - Yes\n[2] - No\n");
-        System.out.print(": ");
-        syndicateOption = input.nextInt();
-        input.nextLine();
-
-        syndicate = employee.getEmployeeSyndicate();
-
-        switch(syndicateOption){
-            case 1:
-                System.out.print("Inform the tax of the syndicate: ");
-                tax = input.nextDouble();
-                input.nextLine();
-
-                syndicate.setTax(tax);
-                syndicate.setAffiliated(true);
-
-                break;
-            case 2:
-                syndicate.setTax(0.0);
-                syndicate.setAffiliated(false);
-                break;
-            default:
-                System.out.println("Invalid option! Syndicate filiation not registererd to this employee");
-                syndicate.setTax(0.0);
-                syndicate.setAffiliated(false);
-                break;
-        }
-        
-        employee.setName(name);
-        employee.setAddress(address);
-        employee.setSalary(salary);
-        employee.setEmployeeSyndicate(syndicate);
-
-        if(employee instanceof Comissioned){
-            Comissioned updatedEmployee = new Comissioned(employee.getName(), 
-                                                        employee.getAddress(), employee.getSalary(),
-                                                        comission, paymentData);
-            
-            updatedEmployee.setId(employee.getId());
-            
-            EmployeeUtils.removeSpecificEmployee(employee.getId().toString(), employees);
-
-            employees.add(updatedEmployee);
-
-            System.out.println(updatedEmployee);
-        }else{
-            System.out.println(employee);
-        }
-
-        System.out.println("\nEmployee updated with success!\n");        
-    }
     
     public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
         if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
@@ -431,5 +173,45 @@ public class EmployeeController {
         System.out.println("\nService tax registered with success!\n");
     }
 
+    public static void updateEmployee(Scanner input, ArrayList<Employee> employees){
+
+        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
+
+        Employee employee = EmployeeUtils.gettingEmployee(input, employees);
+        
+        ValueHolder valueHolder = EmployeeUtils.readEmplyeeBasicData(input);
+
+        Employee auxiliarEmployee = valueHolder.getEmployee();
+        
+        if(auxiliarEmployee == null){
+            System.out.println("\nInvalid data informed, employee not updated!\n");
+            return;
+        }
+
+        employee.setName(auxiliarEmployee.getName());
+        employee.setAddress(auxiliarEmployee.getAddress());
+        employee.setSalary(auxiliarEmployee.getSalary());
+        employee.setEmployeeSyndicate(auxiliarEmployee.getEmployeeSyndicate());
+        employee.setPaymentData(auxiliarEmployee.getPaymentData());
+
+        if(auxiliarEmployee instanceof Comissioned){
+            Comissioned updatedEmployee = new Comissioned(employee.getName(), 
+                                                        employee.getAddress(), employee.getSalary(),
+                                                        valueHolder.getComission(), employee.getPaymentData());
+            
+            updatedEmployee.setId(employee.getId());
+            updatedEmployee.setEmployeeSyndicate(auxiliarEmployee.getEmployeeSyndicate());
+            
+            EmployeeUtils.removeSpecificEmployee(employee.getId().toString(), employees);
+
+            employees.add(updatedEmployee);
+
+            System.out.println(updatedEmployee);
+        }else{
+            System.out.println(employee);
+        }
+
+        System.out.println("\nEmployee updated with success!\n");        
+    }
 }
 
