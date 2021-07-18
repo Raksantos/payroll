@@ -137,7 +137,7 @@ public class EmployeeUtils {
         input.nextLine();
 
         System.out.println("Schedule: ");
-        System.out.println("1 - Monthly\n2 - Weekly\n3 - Bi-weekly");
+        System.out.println("1 - Monthly\n2 - Weekly\n3 - Every two weeks");
         System.out.print(":");
         schedule = input.nextInt();
 

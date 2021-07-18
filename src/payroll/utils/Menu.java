@@ -1,5 +1,6 @@
 package utils;
 
+import java.time.DateTimeException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,9 +9,7 @@ import controllers.PaymentController;
 import models.Company;
 
 public class Menu {
-    public static void menu(){
-
-        Company company = new Company();
+    public static void menu(Company company){
 
         int option = 13;
 
@@ -26,6 +25,7 @@ public class Menu {
                 System.out.println("[5] Launch a service tax.");
                 System.out.println("[6] Update an employee data.");
                 System.out.println("[7] List the employees.");
+                System.out.println("[8] Launch Payroll.");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
@@ -86,7 +86,13 @@ public class Menu {
         }catch(InputMismatchException err){
             option = 13;
             System.out.println("\n\nInvalid option!!\n\n");
-            menu();
+            menu(company);
+        }catch(NumberFormatException err){
+            System.out.println("\n\nInvalid entry!!\n\n");
+            menu(company);
+        }catch(DateTimeException err){
+            System.out.println("\n\nInvalid date!!\n\n");
+            menu(company);
         }
         input.close();
     }

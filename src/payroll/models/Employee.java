@@ -1,7 +1,15 @@
 package models;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Predicate;
+
 import models.services.payment.PaymentData;
+import models.services.payment.PayCheck;
+import models.services.ServiceTax;
+
+import static java.util.stream.Collectors.toCollection;
 
 public class Employee {
     private UUID id;
@@ -88,5 +96,45 @@ public class Employee {
 
         data += "\n}\n";
         return data;
+    }
+
+    public PayCheck makePayment(LocalDate date){
+        PayCheck payCheck;
+        Double paymentValue = 0.0, taxSyndicate = this.getEmployeeSyndicate().getTax();
+        Double taxes = calculateServiceTaxes(); 
+        boolean haveTax = false;
+
+        if(taxSyndicate > 0.0){
+            taxes += taxSyndicate;
+            haveTax = true;
+        }
+
+        payCheck = new PayCheck(this, paymentValue, taxes, haveTax, date);
+        this.getPaymentData().getPayChecks().add(payCheck);
+        return payCheck;
+    }
+
+    public Double calculateServiceTaxes(){
+        double taxes = 0.0;
+
+        ArrayList<ServiceTax> serviceTaxes;
+        ArrayList<PayCheck> payChecks = this.getPaymentData().getPayChecks();
+
+        if(this.getEmployeeSyndicate().getIsAffiliated() == true){
+            if(!payChecks.isEmpty()){
+                LocalDate lastDate = payChecks.get(payChecks.size() - 1).getDate();
+                Predicate<ServiceTax> dateFilter = tax -> tax.getDate().isAfter(lastDate);
+
+                serviceTaxes = this.getEmployeeSyndicate().getServiceTax().stream().filter(dateFilter).collect(toCollection(ArrayList::new));
+            } else {
+                serviceTaxes = this.getEmployeeSyndicate().getServiceTax();
+            }
+
+            for(ServiceTax stax : serviceTaxes){
+                taxes += stax.getValue();
+            }
+        }
+
+        return taxes;
     }
 }

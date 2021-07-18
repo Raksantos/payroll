@@ -9,21 +9,30 @@ public class PayCheck {
 
     private Double paymentValue;
 
-    //private Double taxes;
+    private Double taxes;
 
     private boolean haveTax;
 
     private LocalDate date;
 
-    PayCheck(Employee employee, Double paymentValue, boolean haveTax, LocalDate date){
+    public PayCheck(Employee employee, Double paymentValue, Double taxes, boolean haveTax, LocalDate date){
         this.employee = employee;
         this.paymentValue = paymentValue;
+        this.taxes = taxes;
         this.haveTax = haveTax;
         this.date = date;
     }
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public Double getTaxes() {
+        return taxes;
+    }
+    
+    public void setTaxes(Double taxes) {
+        this.taxes = taxes;
     }
 
     public Employee getEmployee() {
@@ -52,5 +61,17 @@ public class PayCheck {
 
     public void setPaymentValue(Double paymentValue) {
         this.paymentValue = paymentValue;
+    }
+
+    @Override
+    public String toString(){
+        String data =  "\nPayment Check: {";
+        data += "\n\tEmployee: \n\t\t" + getEmployee();
+        data += "\n\tPayment Value: " + getPaymentValue();
+        data += "\n\tHave Tax: " + isHaveTax();
+        data +=  "\n\tDate: " + getDate();
+        data += "\n}\n";
+
+        return data;
     }
 }
