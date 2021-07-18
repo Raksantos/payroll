@@ -79,7 +79,7 @@ public class PaymentData{
 
     @Override
     public String toString(){
-        String data =  "\n\t\tBank: {" + getBank();
+        String data =  "\n\t\tBank: " + getBank();
         data += "\n\t\tAgency: " + getAgency();
         data += "\n\t\tAccount: " + getAccount();
         data +=  "\n\t\tPayment Method: " + getPaymentMethod();

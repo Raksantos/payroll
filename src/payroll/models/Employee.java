@@ -134,6 +134,8 @@ public class Employee {
                 taxes += stax.getValue();
             }
         }
+        
+        taxes += this.getEmployeeSyndicate().getTax();
 
         return taxes;
     }

@@ -134,7 +134,6 @@ public class EmployeeController {
 
         comissionedEmployee.setSales(sales);
     }
-
     
     public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
         if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
@@ -169,6 +168,7 @@ public class EmployeeController {
         ArrayList<ServiceTax> serviceTaxList = updateEmployee.getEmployeeSyndicate().getServiceTax();
         
         serviceTaxList.add(serviceTax);
+
 
         System.out.println("\nService tax registered with success!\n");
     }

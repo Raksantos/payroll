@@ -30,7 +30,12 @@ public class PaymentController {
 
         for(Employee employee : company.getEmployees()){
             taxes = employee.calculateServiceTaxes();
-            payCheck = new PayCheck(employee, employee.getSalary(), taxes, false, date);
+
+            if(taxes > 0.0){
+                payCheck = new PayCheck(employee, employee.getSalary(), taxes, true, date);
+            }else{
+                payCheck = new PayCheck(employee, employee.getSalary(), taxes, false, date);
+            }
             System.out.println(payCheck.toString());
             payCheckList.add(payCheck);
         }

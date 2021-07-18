@@ -84,13 +84,15 @@ public class Menu {
                 }   
             }
         }catch(InputMismatchException err){
-            option = 13;
             System.out.println("\n\nInvalid option!!\n\n");
             menu(company);
         }catch(NumberFormatException err){
             System.out.println("\n\nInvalid entry!!\n\n");
             menu(company);
         }catch(DateTimeException err){
+            System.out.println("\n\nInvalid date!!\n\n");
+            menu(company);
+        }catch(IndexOutOfBoundsException err){
             System.out.println("\n\nInvalid date!!\n\n");
             menu(company);
         }

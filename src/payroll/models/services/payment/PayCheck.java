@@ -66,8 +66,9 @@ public class PayCheck {
     @Override
     public String toString(){
         String data =  "\nPayment Check: {";
-        data += "\n\tEmployee: \n\t\t" + getEmployee();
+        data += "\nEmployee: " + getEmployee();
         data += "\n\tPayment Value: " + getPaymentValue();
+        data += "\n\tTaxes: " + getTaxes();
         data += "\n\tHave Tax: " + isHaveTax();
         data +=  "\n\tDate: " + getDate();
         data += "\n}\n";
