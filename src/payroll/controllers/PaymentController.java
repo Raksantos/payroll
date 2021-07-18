@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import models.Comissioned;
 import models.Company;
 import models.Employee;
 import models.services.payment.PayCheck;
@@ -19,7 +18,6 @@ public class PaymentController {
         String stringDate;
         PayCheck payCheck;
         PaymentList paymentList;
-        Double taxes;
         ArrayList<PayCheck> payCheckList = new ArrayList<PayCheck>();
 
         System.out.print("Informe the date(YYYY-MM-DD): ");
@@ -30,8 +28,6 @@ public class PaymentController {
         LocalDate date = LocalDate.of(dateInformation.get(0), dateInformation.get(1), dateInformation.get(2));
 
         for(Employee employee : company.getEmployees()){
-            taxes = employee.calculateServiceTaxes();
-
             payCheck = employee.makePayment(date);
 
             System.out.println(payCheck.toString());

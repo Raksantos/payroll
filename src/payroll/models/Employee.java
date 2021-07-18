@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 
 import models.services.payment.PaymentData;
 import models.services.payment.PayCheck;
-import models.services.SaleResult;
 import models.services.ServiceTax;
 
 import static java.util.stream.Collectors.toCollection;
@@ -132,8 +131,8 @@ public class Employee {
                 serviceTaxes = this.getEmployeeSyndicate().getServiceTax();
             }
 
-            for(ServiceTax stax : serviceTaxes){
-                taxes += stax.getValue();
+            for(ServiceTax tax : serviceTaxes){
+                taxes += tax.getValue();
             }
         }
         

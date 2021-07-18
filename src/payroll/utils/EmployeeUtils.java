@@ -105,11 +105,11 @@ public class EmployeeUtils {
     }
 
     public static ValueHolder readEmployeeBasicData(Scanner input){
-        String name, address, bank, agency, account;
+        String name, address, bank = "", agency = "", account = "", schedule = "", paymentMethod = "";
         
         Double salary, comission = 0.0, tax = 0.0;
         
-        int option, syndicateOption, paymentMethod, schedule;
+        int option, syndicateOption, scheduleOption, paymentMethodOption;
         
         PaymentData paymentData = null;
         Syndicate syndicate = null;
@@ -131,23 +131,47 @@ public class EmployeeUtils {
         account = input.nextLine();
 
         System.out.println("Payment method: ");
-        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - in cash");
+        System.out.println("1 - Check in the post office\n2 - Bank deposit\n3 - In cash");
         System.out.print(":");
-        paymentMethod = input.nextInt();
-        input.nextLine();
+
+        paymentMethodOption = input.nextInt();
+
+        switch(paymentMethodOption){
+            case 1:
+                paymentMethod = "Check in the post office";
+                break;
+            case 2:
+                paymentMethod = "Bank deposit";
+                break;
+            case 3:
+                paymentMethod = "In cash";
+                break;
+            default:
+                System.out.println("\n\n invalid input, payment method not registered! \n\n");
+                break;
+        }
 
         System.out.println("Schedule: ");
         System.out.println("1 - Monthly\n2 - Weekly\n3 - Every two weeks");
         System.out.print(":");
-        schedule = input.nextInt();
+        scheduleOption = input.nextInt();
 
-        if(paymentMethod > 3 || paymentMethod < 1){
-            System.out.println("\nInvalid payment method");   
-            paymentData = new PaymentData(null, null, null, 0, 0); 
-        }else{
-            paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
+        switch(scheduleOption){
+            case 1:
+                schedule = "Monthly";
+                break;
+            case 2:
+                schedule = "Weekly";
+                break;
+            case 3:
+                schedule = "Every two weeks";
+                break;
+            default:
+                System.out.println("\n\nInvalid type informed, employee not registered\n\n");
+                return new ValueHolder(employee, comission);
         }
 
+        paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
 
         System.out.println("Which type is the employee?");
         System.out.println("1 - Hourly\n2 - Comissioned\n3 - Salaried");

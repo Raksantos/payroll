@@ -9,9 +9,9 @@ public class PaymentData{
 
     private String account;
 
-    private int paymentMethod;
+    private String paymentMethod;
 
-    private int schedule;
+    private String schedule;
 
     private ArrayList<PayCheck> payChecks;
 
@@ -20,7 +20,7 @@ public class PaymentData{
     }
 
     
-    public PaymentData(String bank, String agency, String account, int paymentMethod, int schedule){
+    public PaymentData(String bank, String agency, String account, String paymentMethod, String schedule){
         this.bank = bank;
         this.agency = agency;
         this.account = account;
@@ -41,11 +41,11 @@ public class PaymentData{
         return bank;
     }
 
-    public int getPaymentMethod() {
+    public String getPaymentMethod() {
         return paymentMethod;
     }
 
-    public int getSchedule() {
+    public String getSchedule() {
         return schedule;
     }
 
@@ -61,11 +61,11 @@ public class PaymentData{
         this.bank = bank;
     }
 
-    public void setPaymentMethod(int paymentMethod) {
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setSchedule(int schedule) {
+    public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
 
