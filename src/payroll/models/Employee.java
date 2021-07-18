@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import models.services.payment.PaymentData;
 import models.services.payment.PayCheck;
+import models.services.SaleResult;
 import models.services.ServiceTax;
 
 import static java.util.stream.Collectors.toCollection;
@@ -100,15 +101,16 @@ public class Employee {
 
     public PayCheck makePayment(LocalDate date){
         PayCheck payCheck;
-        Double paymentValue = 0.0, taxSyndicate = this.getEmployeeSyndicate().getTax();
+        Double paymentValue = this.getSalary();
         Double taxes = calculateServiceTaxes(); 
         boolean haveTax = false;
 
-        if(taxSyndicate > 0.0){
-            taxes += taxSyndicate;
-            haveTax = true;
-        }
+        paymentValue -= taxes;
 
+        if(this instanceof Comissioned){
+            paymentValue += calculateComission((Comissioned) this);
+        }
+        
         payCheck = new PayCheck(this, paymentValue, taxes, haveTax, date);
         this.getPaymentData().getPayChecks().add(payCheck);
         return payCheck;
@@ -138,5 +140,15 @@ public class Employee {
         taxes += this.getEmployeeSyndicate().getTax();
 
         return taxes;
+    }
+
+    public double calculateComission(Comissioned employee){
+        double totalComission = 0.0;
+
+        for(int i = 0; i < employee.getSales().size(); i++){
+            totalComission += employee.getComission();
+        }
+
+        return totalComission;
     }
 }

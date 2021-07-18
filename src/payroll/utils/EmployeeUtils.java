@@ -104,7 +104,7 @@ public class EmployeeUtils {
         return wantedEmployee;
     }
 
-    public static ValueHolder readEmplyeeBasicData(Scanner input){
+    public static ValueHolder readEmployeeBasicData(Scanner input){
         String name, address, bank, agency, account;
         
         Double salary, comission = 0.0, tax = 0.0;

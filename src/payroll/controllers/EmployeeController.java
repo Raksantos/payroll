@@ -46,7 +46,7 @@ public class EmployeeController {
     public static void registerNewEmployee(Scanner input, ArrayList<Employee> employees){
         Employee employee = null;
 
-        employee = EmployeeUtils.readEmplyeeBasicData(input).getEmployee();
+        employee = EmployeeUtils.readEmployeeBasicData(input).getEmployee();
 
         if(employee == null){
             System.out.println("\nEmployee not registered!\n");
@@ -179,7 +179,7 @@ public class EmployeeController {
 
         Employee employee = EmployeeUtils.gettingEmployee(input, employees);
         
-        ValueHolder valueHolder = EmployeeUtils.readEmplyeeBasicData(input);
+        ValueHolder valueHolder = EmployeeUtils.readEmployeeBasicData(input);
 
         Employee auxiliarEmployee = valueHolder.getEmployee();
         

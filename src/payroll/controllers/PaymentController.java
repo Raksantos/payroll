@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import models.Comissioned;
 import models.Company;
 import models.Employee;
 import models.services.payment.PayCheck;
@@ -31,11 +32,8 @@ public class PaymentController {
         for(Employee employee : company.getEmployees()){
             taxes = employee.calculateServiceTaxes();
 
-            if(taxes > 0.0){
-                payCheck = new PayCheck(employee, employee.getSalary(), taxes, true, date);
-            }else{
-                payCheck = new PayCheck(employee, employee.getSalary(), taxes, false, date);
-            }
+            payCheck = employee.makePayment(date);
+
             System.out.println(payCheck.toString());
             payCheckList.add(payCheck);
         }
