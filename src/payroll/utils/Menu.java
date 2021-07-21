@@ -26,8 +26,8 @@ public class Menu {
                 System.out.println("[6] Update an employee data.");
                 System.out.println("[7] List the employees.");
                 System.out.println("[8] Launch Payroll.");
-                System.out.println("[9] Show payment lists");
-                System.out.println("[10] Edit payment list");
+                System.out.println("[9] Show payment lists.");
+                System.out.println("[10] Edit payment schedule.");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
@@ -70,21 +70,26 @@ public class Menu {
                         EmployeeController.updateEmployee(input, company.getEmployees());
                         break;
                     case 7:
-
-                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
-                            EmployeeController.listEmployees(company.getEmployees());
-                        }
+                        EmployeeController.listEmployees(company.getEmployees());
                         
                         break;
                     case 8:
+                        EmployeeController.listEmployees(company.getEmployees());
+
                         PaymentController.LaunchPayroll(input, company);
 
                         break;
 
                     case 9:
-                        System.out.println(company.getPaymentLists());    
+                        if(company.getPaymentLists().size() > 0){
+                            System.out.println(company.getPaymentLists());    
+                        }else{
+                            System.out.println("\n\nThere isn't employees registered\n\n");
+                        }
                         break;
                     case 10:
+                        EmployeeController.listEmployees(company.getEmployees());
+
                         EmployeeController.editEmployeeSchedule(input, company.getEmployees());
                         break;
                     default:

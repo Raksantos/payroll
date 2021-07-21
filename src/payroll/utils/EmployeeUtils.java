@@ -66,8 +66,7 @@ public class EmployeeUtils {
         } else{
             return false;
         }
-    }
-    
+    }  
 
     public static void removeSpecificEmployee(String id, ArrayList<Employee> employees){
         for(Employee employee : employees){
@@ -82,7 +81,7 @@ public class EmployeeUtils {
 
         if(warningEmptyEmployeesList(employees)) return null;
         
-        System.out.println("Inform the employee id: ");
+        System.out.print("Inform the employee id: ");
         String id = input.nextLine();
 
         Employee wantedEmployee = null;

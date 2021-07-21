@@ -47,7 +47,7 @@ public class PaymentSchedule {
     @Override
     public String toString() {
         return " Payment Schedule {" +
-                "Day of the month: " + getMonthDay() +
+                //"Day of the month: " + getMonthDay() +
                 ", week day: " + getWeekDay() +
                 ", kind of schedule: '" + getSchedule() + '\'' +
                 '}';

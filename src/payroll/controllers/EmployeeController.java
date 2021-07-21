@@ -1,5 +1,6 @@
 package controllers;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 
 import models.*;
 import models.services.*;
-
+import models.services.payment.PaymentSchedule;
 import utils.EmployeeUtils;
 import utils.ValueHolder;
 
@@ -61,15 +62,9 @@ public class EmployeeController {
     }
 
     public static void launchTimeCard(Scanner input, ArrayList<Employee> employees){
-
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
-
-        System.out.print("Inform the id of the employee: ");
-        String id = input.nextLine();
-
         Employee employee = null;
 
-        employee = EmployeeUtils.findEmployee(employees, id);
+        employee = EmployeeUtils.findEmployee(input, employees);
 
         if(!EmployeeUtils.wasEmployeeFound(employee)) return;
 
@@ -102,14 +97,10 @@ public class EmployeeController {
     }
 
     public static void launchSaleResult(Scanner input, ArrayList<Employee> employees){
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
-
-        System.out.print("Inform the id of the employee: ");
-        String id = input.nextLine();
 
         Employee employee = null;
 
-        employee = EmployeeUtils.findEmployee(employees, id);
+        employee = EmployeeUtils.findEmployee(input, employees);
 
         if(!EmployeeUtils.wasEmployeeFound(employee)) return;
 
@@ -136,16 +127,12 @@ public class EmployeeController {
     }
     
     public static void launchServiceTax(Scanner input, ArrayList<Employee> employees){
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
-
-        System.out.print("Inform the id of the employee: ");
-        String id = input.nextLine();
 
         Employee updateEmployee = null;
 
-        updateEmployee = EmployeeUtils.findEmployee(employees, id);
+        updateEmployee = EmployeeUtils.findEmployee(input, employees);
 
-        if(!EmployeeUtils.wasEmployeeFound(updateEmployee)) return;
+        if(updateEmployee == null) return;
 
         if(!updateEmployee.getEmployeeSyndicate().getIsAffiliated()){
             System.out.println("\nThe employee is not filiated to the syndicate.\n");
@@ -175,9 +162,9 @@ public class EmployeeController {
 
     public static void updateEmployee(Scanner input, ArrayList<Employee> employees){
 
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
+        Employee employee = EmployeeUtils.findEmployee(input, employees);
 
-        Employee employee = EmployeeUtils.gettingEmployee(input, employees);
+        if(employee == null) return;
         
         ValueHolder valueHolder = EmployeeUtils.readEmployeeBasicData(input);
 
@@ -216,9 +203,37 @@ public class EmployeeController {
 
     public static void editEmployeeSchedule(Scanner input, ArrayList<Employee> employees){
 
-        listEmployees(employees);
-
         Employee employee =  EmployeeUtils.findEmployee(input, employees);
+
+        int scheduleOption;
+
+        if(EmployeeUtils.wasEmployeeFound(employee)){
+            System.out.println("Schedule: ");
+            System.out.println("1 - Monthly\n2 - Weekly\n3 - Every two weeks");
+            System.out.print(":");
+            scheduleOption = input.nextInt();
+
+            switch(scheduleOption){
+                case 1:
+                    employee.getPaymentData().getPaymentSchedule().setSchedule("Monthly");
+                    break;
+                case 2:
+                    employee.getPaymentData().getPaymentSchedule().setSchedule("Weekly");
+                    employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
+                    break;
+                case 3:
+                    employee.getPaymentData().getPaymentSchedule().setSchedule("Every two weeks");
+                    employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
+                    break;
+                default:
+                    System.out.println("\n\nInvalid type informed, employee not registered\n\n");
+                    break;
+            }
+
+            System.out.println(employee);
+        }else{  
+            return;
+        }
     }
 }
 
