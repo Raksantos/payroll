@@ -8,6 +8,10 @@ import java.util.function.Predicate;
 import models.services.payment.PaymentData;
 import models.services.payment.PayCheck;
 import models.services.ServiceTax;
+import models.services.TimeCard;
+
+import java.time.Duration;
+import java.time.LocalTime;
 
 import static java.util.stream.Collectors.toCollection;
 
@@ -104,15 +108,43 @@ public class Employee {
         Double taxes = calculateServiceTaxes(); 
         boolean haveTax = false;
 
-        paymentValue -= taxes;
-
         if(this instanceof Comissioned){
             paymentValue += calculateComission((Comissioned) this);
         }
+
+        if(this instanceof Hourly){
+            paymentValue += getPayment((Hourly) this);
+        }
+
+        paymentValue -= taxes;
         
         payCheck = new PayCheck(this, paymentValue, taxes, haveTax, date);
         this.getPaymentData().getPayChecks().add(payCheck);
         return payCheck;
+    }
+
+    public Double getPayment(Hourly employee){
+        double payment = 0.0, hours = 0.0, extraHours = 0.0;
+
+        for(TimeCard timeCard : employee.getTimeCards()){
+            LocalTime timeEntry = timeCard.getTimeEntry();
+            LocalTime timeOut = timeCard.getTimeOut();
+
+            Duration time = Duration.between(timeEntry, timeOut);
+
+            hours = (double) time.getSeconds()/3600;
+
+            if(hours > 8.0){
+                extraHours = hours - 8.0;
+                payment += 8.0 * employee.getSalary();
+
+                System.out.println(employee);
+
+                payment += extraHours * 1.5 * employee.getSalary();
+            }
+        }
+
+        return payment;
     }
 
     public Double calculateServiceTaxes(){
