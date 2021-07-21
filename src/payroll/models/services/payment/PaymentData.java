@@ -11,7 +11,7 @@ public class PaymentData{
 
     private String paymentMethod;
 
-    private String schedule;
+    private PaymentSchedule paymentSchedule;
 
     private ArrayList<PayCheck> payChecks;
 
@@ -20,12 +20,12 @@ public class PaymentData{
     }
 
     
-    public PaymentData(String bank, String agency, String account, String paymentMethod, String schedule){
+    public PaymentData(String bank, String agency, String account, String paymentMethod, PaymentSchedule paymentSchedule){
         this.bank = bank;
         this.agency = agency;
         this.account = account;
         this.paymentMethod = paymentMethod;
-        this.schedule = schedule;
+        this.paymentSchedule = paymentSchedule;
         this.payChecks = new ArrayList<PayCheck>();
     }
 
@@ -45,8 +45,8 @@ public class PaymentData{
         return paymentMethod;
     }
 
-    public String getSchedule() {
-        return schedule;
+    public PaymentSchedule getPaymentSchedule() {
+        return paymentSchedule;
     }
 
     public void setAccount(String account) {
@@ -65,8 +65,8 @@ public class PaymentData{
         this.paymentMethod = paymentMethod;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+    public void setSchedule(PaymentSchedule schedule) {
+        this.paymentSchedule = schedule;
     }
 
     public ArrayList<PayCheck> getPayChecks() {
@@ -83,7 +83,7 @@ public class PaymentData{
         data += "\n\t\tAgency: " + getAgency();
         data += "\n\t\tAccount: " + getAccount();
         data +=  "\n\t\tPayment Method: " + getPaymentMethod();
-        data += "\n\t\tSchedule: " + getSchedule();
+        data += "\n\t\tSchedule: " + getPaymentSchedule();
         data += "\n\t}";
 
         return data;

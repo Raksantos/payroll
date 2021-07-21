@@ -213,5 +213,12 @@ public class EmployeeController {
 
         System.out.println("\nEmployee updated with success!\n");        
     }
+
+    public static void editEmployeeSchedule(Scanner input, ArrayList<Employee> employees){
+
+        listEmployees(employees);
+
+        Employee employee =  EmployeeUtils.findEmployee(input, employees);
+    }
 }
 

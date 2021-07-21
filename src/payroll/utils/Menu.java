@@ -27,6 +27,7 @@ public class Menu {
                 System.out.println("[7] List the employees.");
                 System.out.println("[8] Launch Payroll.");
                 System.out.println("[9] Show payment lists");
+                System.out.println("[10] Edit payment list");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
@@ -82,6 +83,9 @@ public class Menu {
 
                     case 9:
                         System.out.println(company.getPaymentLists());    
+                        break;
+                    case 10:
+                        EmployeeController.editEmployeeSchedule(input, company.getEmployees());
                         break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");

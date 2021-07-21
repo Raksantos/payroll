@@ -1,5 +1,6 @@
 package utils;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import java.util.stream.Stream;
 
 import models.*;
 import models.services.payment.PaymentData;
+import models.services.payment.PaymentSchedule;
 
 
 public class EmployeeUtils {
@@ -66,20 +68,6 @@ public class EmployeeUtils {
         }
     }
     
-    public static Employee gettingEmployee(Scanner input, ArrayList<Employee> employees){
-        if(warningEmptyEmployeesList(employees)) return null;
-
-        System.out.print("Inform the id of the employee: ");
-        String id = input.nextLine();
-
-        Employee employee = null;
-
-        employee = findEmployee(employees, id);
-
-        if(!wasEmployeeFound(employee)) return null;
-
-        return employee;
-    }
 
     public static void removeSpecificEmployee(String id, ArrayList<Employee> employees){
         for(Employee employee : employees){
@@ -90,7 +78,12 @@ public class EmployeeUtils {
         }
     }
 
-    public static Employee findEmployee(ArrayList<Employee> employees, String id){
+    public static Employee findEmployee(Scanner input, ArrayList<Employee> employees){
+
+        if(warningEmptyEmployeesList(employees)) return null;
+        
+        System.out.println("Inform the employee id: ");
+        String id = input.nextLine();
 
         Employee wantedEmployee = null;
 
@@ -101,11 +94,15 @@ public class EmployeeUtils {
             }
         }
 
+        if(!wasEmployeeFound(wantedEmployee)) return null;
+
         return wantedEmployee;
     }
 
     public static ValueHolder readEmployeeBasicData(Scanner input){
-        String name, address, bank = "", agency = "", account = "", schedule = "", paymentMethod = "";
+        String name, address, bank = "", agency = "", account = "", paymentMethod = "";
+
+        PaymentSchedule schedule = new PaymentSchedule();
         
         Double salary, comission = 0.0, tax = 0.0;
         
@@ -158,13 +155,13 @@ public class EmployeeUtils {
 
         switch(scheduleOption){
             case 1:
-                schedule = "Monthly";
+                schedule.setSchedule("Monthly");
                 break;
             case 2:
-                schedule = "Weekly";
+                schedule.setSchedule("Weekly");
                 break;
             case 3:
-                schedule = "Every two weeks";
+                schedule.setSchedule("Weekly");
                 break;
             default:
                 System.out.println("\n\nInvalid type informed, employee not registered\n\n");
@@ -210,6 +207,14 @@ public class EmployeeUtils {
                 return new ValueHolder(employee, comission);
         }
 
+        if(employee.getPaymentData().getPaymentSchedule().getSchedule()== "Monthly"){
+            employee.getPaymentData().getPaymentSchedule().setWeekDay(null);
+        }else if(employee.getPaymentData().getPaymentSchedule().getSchedule() == "Weekly"){
+            employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
+        }else if(employee.getPaymentData().getPaymentSchedule().getSchedule() == "Every two weeks"){
+            employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
+        }
+
         System.out.println("Is affiliated to the syndicate? ");
         System.out.println("[1] - Yes\n[2] - No\n");
         System.out.print(": ");
@@ -237,4 +242,5 @@ public class EmployeeUtils {
 
         return new ValueHolder(employee, comission);
     }
+
 }
