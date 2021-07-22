@@ -28,6 +28,7 @@ public class Menu {
                 System.out.println("[8] Launch Payroll.");
                 System.out.println("[9] Show payment lists.");
                 System.out.println("[10] Edit payment schedule.");
+                System.out.println("[11] Register new payment list.");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
