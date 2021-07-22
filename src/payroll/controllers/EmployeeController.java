@@ -44,6 +44,7 @@ public class EmployeeController {
     }
 
     public static void registerNewEmployee(Scanner input, ArrayList<Employee> employees){
+
         Employee employee = null;
 
         employee = EmployeeUtils.readEmployeeBasicData(input).getEmployee();

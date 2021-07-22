@@ -93,6 +93,10 @@ public class Menu {
 
                         EmployeeController.editEmployeeSchedule(input, company.getEmployees());
                         break;
+                    case 11:
+                        company.getPaymentSchedules().add(PaymentController.createPaymentSchedule(input));
+                        
+                        break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");
                         break;
