@@ -2,10 +2,7 @@ package utils;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import models.*;
 import models.services.payment.PaymentData;
@@ -39,24 +36,6 @@ public class EmployeeUtils {
         }
 
         return true;
-    }
-
-    public static ArrayList<Integer> convertDateToArray(String date){
-        List<String> dateData = Stream.of(date.split("-"))
-        .map(elem -> new String(elem))
-        .collect(Collectors.toList());
-
-        int year = Integer.parseInt(dateData.get(0));
-        int month = Integer.parseInt(dateData.get(1));
-        int day = Integer.parseInt(dateData.get(2));
-
-        ArrayList<Integer> data = new ArrayList<Integer>();
-        
-        data.add(year);
-        data.add(month);
-        data.add(day);
-
-        return data;
     }
 
     public static boolean warningEmptyEmployeesList(ArrayList<Employee> employees){

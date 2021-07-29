@@ -9,6 +9,7 @@ import java.util.Scanner;
 import models.*;
 import models.services.*;
 import utils.EmployeeUtils;
+import utils.GeneralUtils;
 import utils.ValueHolder;
 
 public class EmployeeController {
@@ -80,7 +81,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
+        ArrayList<Integer> dateData = GeneralUtils.convertDateToArray(date);
 
         LocalTime employeeEntry = LocalTime.of(entryHour, 00, 00);
         LocalTime employeeOut = LocalTime.of(outHour, 00, 00);
@@ -113,7 +114,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
+        ArrayList<Integer> dateData = GeneralUtils.convertDateToArray(date);
 
         LocalDate saleDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
 
@@ -146,7 +147,7 @@ public class EmployeeController {
         System.out.print("Inform the date (YYYY-MM-DD): ");
         String date = input.nextLine();
 
-        ArrayList<Integer> dateData = EmployeeUtils.convertDateToArray(date);
+        ArrayList<Integer> dateData = GeneralUtils.convertDateToArray(date);
 
         LocalDate serviceTaxDate = LocalDate.of(dateData.get(0), dateData.get(1), dateData.get(2));
 

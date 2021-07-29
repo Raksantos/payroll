@@ -32,7 +32,7 @@ public class PaymentList {
     @Override
     public String toString() {
         String str = "\nLista de pagamentos";
-        str += "\nData: " + this.getDate() + "\n";
+        str += "\nData: " + this.getDate() + ", ";
         for(PayCheck paycheck : this.getPayChecks()){
             str += paycheck.toString();
         }

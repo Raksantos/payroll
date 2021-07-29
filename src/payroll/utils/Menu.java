@@ -29,6 +29,7 @@ public class Menu {
                 System.out.println("[9] Show payment lists.");
                 System.out.println("[10] Edit payment schedule.");
                 System.out.println("[11] Register new payment list.");
+                System.out.println("[12] Show new payment schedules.");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
@@ -85,7 +86,7 @@ public class Menu {
                         if(company.getPaymentLists().size() > 0){
                             System.out.println(company.getPaymentLists());    
                         }else{
-                            System.out.println("\n\nThere isn't employees registered\n\n");
+                            System.out.println("\n\nThere isn't payment list registered\n\n");
                         }
                         break;
                     case 10:
@@ -94,8 +95,12 @@ public class Menu {
                         EmployeeController.editEmployeeSchedule(input, company.getEmployees());
                         break;
                     case 11:
+                        
                         company.getPaymentSchedules().add(PaymentController.createPaymentSchedule(input));
                         
+                        break;
+                    case 12:
+                        System.out.println(company.getPaymentSchedules());
                         break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");
