@@ -1,9 +1,10 @@
 package models.services.payment;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class PaymentList {
+public class PaymentList  implements Serializable{
     private ArrayList<PayCheck> payChecks;
 
     private LocalDate date;

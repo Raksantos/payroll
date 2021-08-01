@@ -1,8 +1,9 @@
 package models.services.payment;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 
-public class PaymentSchedule {
+public class PaymentSchedule implements Serializable{
 
     private Integer monthDay;
 

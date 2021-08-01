@@ -1,15 +1,12 @@
 package models.services;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Operations {
+public class Operations implements Serializable{
     private Double value;
 
     private LocalDate date;
-
-    public Operations(){
-
-    }
 
     public Operations(Double value, LocalDate date){
         this.value = value;

@@ -4,9 +4,10 @@ import java.util.UUID;
 
 import models.services.ServiceTax;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Syndicate {
+public class Syndicate implements Serializable{
     private UUID id;
 
     private UUID employeeId;
@@ -16,10 +17,6 @@ public class Syndicate {
     private Double tax;
 
     private ArrayList<ServiceTax> serviceTax;
-
-    public Syndicate(){
-
-    }
 
     public Syndicate(UUID employeeId, boolean isAffiliated, Double tax){
         this.id = UUID.randomUUID();

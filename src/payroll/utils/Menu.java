@@ -55,44 +55,71 @@ public class Menu {
 
                         if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
 
-                            EmployeeController.listEmployees(company.getEmployees());    
-
                             undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeController.listEmployees(company.getEmployees());    
                         
                             EmployeeController.removeEmployee(input, company.getEmployees());
                         }
                         
                         break;
                     case 3:
-                    
-                        EmployeeUtils.listHourly(company.getEmployees());
-                        
-                        EmployeeController.launchTimeCard(input, company.getEmployees());
+
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeUtils.listHourly(company.getEmployees());
+
+                            EmployeeController.launchTimeCard(input, company.getEmployees());
+                        }
     
                         break;
                     case 4:
-                        EmployeeUtils.listComissioned(company.getEmployees());
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeUtils.listComissioned(company.getEmployees());
     
-                        EmployeeController.launchSaleResult(input, company.getEmployees());
+                            EmployeeController.launchSaleResult(input, company.getEmployees());
+                        }
+                        
                         break;
                     case 5:
-                        EmployeeController.listEmployees(company.getEmployees());
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeController.listEmployees(company.getEmployees());
     
-                        EmployeeController.launchServiceTax(input, company.getEmployees());
+                            EmployeeController.launchServiceTax(input, company.getEmployees());
+                        }
                         break;
                     case 6:
-                        EmployeeController.listEmployees(company.getEmployees());
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeController.listEmployees(company.getEmployees());
     
-                        EmployeeController.updateEmployee(input, company.getEmployees());
+                            EmployeeController.updateEmployee(input, company.getEmployees());
+                        }
+                
                         break;
                     case 7:
                         EmployeeController.listEmployees(company.getEmployees());
                         
                         break;
                     case 8:
-                        EmployeeController.listEmployees(company.getEmployees());
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
 
-                        PaymentController.LaunchPayroll(input, company);
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeController.listEmployees(company.getEmployees());
+
+                            PaymentController.LaunchPayroll(input, company);
+                        }
 
                         break;
 
@@ -104,11 +131,19 @@ public class Menu {
                         }
                         break;
                     case 10:
-                        EmployeeController.listEmployees(company.getEmployees());
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
 
-                        EmployeeController.editEmployeeSchedule(input, company.getEmployees());
+                            undo.push(GeneralUtils.saveState(company));
+
+                            EmployeeController.listEmployees(company.getEmployees());
+
+                            EmployeeController.editEmployeeSchedule(input, company.getEmployees());
+                        }
+    
                         break;
                     case 11:
+                        
+                        undo.push(GeneralUtils.saveState(company));
                         
                         company.getPaymentSchedules().add(PaymentController.createPaymentSchedule(input));
                         

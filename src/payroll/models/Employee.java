@@ -15,7 +15,9 @@ import java.time.LocalTime;
 
 import static java.util.stream.Collectors.toCollection;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable{
     private UUID id;
     private String name;
     private String address;

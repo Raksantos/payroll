@@ -1,10 +1,11 @@
 package models.services.payment;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import models.Employee;
 
-public class PayCheck {
+public class PayCheck implements Serializable{
     private Employee employee;
 
     private Double paymentValue;
