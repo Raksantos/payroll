@@ -9,6 +9,10 @@ public class PaymentList  implements Serializable{
 
     private LocalDate date;
 
+    public PaymentList(){
+
+    }
+
     public PaymentList(ArrayList<PayCheck> payChecks, LocalDate date) {
         this.payChecks = payChecks;
         this.date = date;

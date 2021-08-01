@@ -18,6 +18,10 @@ public class Syndicate implements Serializable{
 
     private ArrayList<ServiceTax> serviceTax;
 
+    Syndicate(){
+        
+    }
+
     public Syndicate(UUID employeeId, boolean isAffiliated, Double tax){
         this.id = UUID.randomUUID();
         this.employeeId = employeeId;

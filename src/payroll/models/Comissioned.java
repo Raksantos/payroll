@@ -11,7 +11,7 @@ public class Comissioned extends Employee{
     private ArrayList<SaleResult> sales;
 
     public Comissioned(){
-
+        
     }
 
     public Comissioned(String name, String address, Double salary, Double comission, PaymentData paymenteData){

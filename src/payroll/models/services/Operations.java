@@ -8,6 +8,10 @@ public class Operations implements Serializable{
 
     private LocalDate date;
 
+    public Operations(){
+        
+    }
+
     public Operations(Double value, LocalDate date){
         this.value = value;
         this.date = date;

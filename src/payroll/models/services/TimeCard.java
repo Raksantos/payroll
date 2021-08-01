@@ -11,6 +11,10 @@ public class TimeCard implements Serializable{
 
     private LocalTime timeOut;
 
+    public TimeCard(){
+        
+    }
+
     public TimeCard(LocalDate date, LocalTime timeEntry, LocalTime timeOut){
         this.date = date;
         this.timeEntry = timeEntry;

@@ -16,6 +16,10 @@ public class PayCheck implements Serializable{
 
     private LocalDate date;
 
+    public PayCheck(){
+        
+    }
+
     public PayCheck(Employee employee, Double paymentValue, Double taxes, boolean haveTax, LocalDate date){
         this.employee = employee;
         this.paymentValue = paymentValue;

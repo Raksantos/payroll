@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import models.services.payment.PaymentData;
 import models.services.payment.PayCheck;
+import models.services.SaleResult;
 import models.services.ServiceTax;
 import models.services.TimeCard;
 
@@ -112,10 +113,23 @@ public class Employee implements Serializable{
 
         if(this instanceof Comissioned){
             paymentValue += calculateComission((Comissioned) this);
+            Comissioned auxEmp = (Comissioned) this;
+
+            ArrayList<SaleResult> emptySale = new ArrayList<>();
+
+            auxEmp.setSales(emptySale);
         }
 
         if(this instanceof Hourly){
-            paymentValue += getPayment((Hourly) this);
+            Hourly auxEmp = (Hourly) this;
+
+            if(!auxEmp.getTimeCards().isEmpty()){
+                paymentValue += getPayment((Hourly) this);
+
+                auxEmp.getTimeCards().remove(auxEmp.getTimeCards().size() - 1);
+            }else{
+                paymentValue = 0.0;
+            }
         }
 
         paymentValue -= taxes;
@@ -125,7 +139,7 @@ public class Employee implements Serializable{
         return payCheck;
     }
 
-    public Double getPayment(Hourly employee){
+    private Double getPayment(Hourly employee){
         double payment = 0.0, hours = 0.0, extraHours = 0.0;
 
         for(TimeCard timeCard : employee.getTimeCards()){
@@ -140,9 +154,11 @@ public class Employee implements Serializable{
                 extraHours = hours - 8.0;
                 payment += 8.0 * employee.getSalary();
 
-                System.out.println(employee);
-
                 payment += extraHours * 1.5 * employee.getSalary();
+            }
+
+            if(employee.getTimeCards().isEmpty()){
+                payment = 0.0;
             }
         }
 

@@ -145,7 +145,7 @@ public class Menu {
                         
                         undo.push(GeneralUtils.saveState(company));
                         
-                        company.getPaymentSchedules().add(PaymentController.createPaymentSchedule(input));
+                        company.getPaymentSchedules().add(EmployeeUtils.createPaymentSchedule(input));
                         
                         break;
                     case 12:

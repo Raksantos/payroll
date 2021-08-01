@@ -11,9 +11,7 @@ public class Company implements Serializable{
 
     private ArrayList<PaymentList> paymentLists;
 
-    private ArrayList<PaymentSchedule> paymentSchedules; 
-
-    
+    private ArrayList<PaymentSchedule> paymentSchedules;     
 
     public Company(){
         this.employees = new ArrayList<Employee>();

@@ -84,7 +84,7 @@ public class EmployeeUtils {
         
         Double salary, comission = 0.0, tax = 0.0;
         
-        int option, syndicateOption, scheduleOption, paymentMethodOption;
+        int option, syndicateOption, paymentMethodOption;
         
         PaymentData paymentData = null;
         Syndicate syndicate = null;
@@ -126,25 +126,7 @@ public class EmployeeUtils {
                 break;
         }
 
-        System.out.println("Schedule: ");
-        System.out.println("1 - Monthly\n2 - Weekly\n3 - Every two weeks");
-        System.out.print(":");
-        scheduleOption = input.nextInt();
-
-        switch(scheduleOption){
-            case 1:
-                schedule.setSchedule("Monthly");
-                break;
-            case 2:
-                schedule.setSchedule("Weekly");
-                break;
-            case 3:
-                schedule.setSchedule("Weekly");
-                break;
-            default:
-                System.out.println("\n\nInvalid type informed, employee not registered\n\n");
-                return new ValueHolder(employee, comission);
-        }
+        schedule = createPaymentSchedule(input);
 
         paymentData = new PaymentData(bank, agency, account, paymentMethod, schedule);
 
@@ -185,16 +167,8 @@ public class EmployeeUtils {
                 return new ValueHolder(employee, comission);
         }
 
-        if(employee.getPaymentData().getPaymentSchedule().getSchedule()== "Monthly"){
-            employee.getPaymentData().getPaymentSchedule().setWeekDay(null);
-        }else if(employee.getPaymentData().getPaymentSchedule().getSchedule() == "Weekly"){
-            employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
-        }else if(employee.getPaymentData().getPaymentSchedule().getSchedule() == "Every two weeks"){
-            employee.getPaymentData().getPaymentSchedule().setWeekDay(DayOfWeek.FRIDAY);
-        }
-
         System.out.println("Is affiliated to the syndicate? ");
-        System.out.println("[1] - Yes\n[2] - No\n");
+        System.out.println("1 - Yes\n2 - No\n");
         System.out.print(": ");
         syndicateOption = input.nextInt();
 
@@ -221,4 +195,53 @@ public class EmployeeUtils {
         return new ValueHolder(employee, comission);
     }
 
+    public static PaymentSchedule createPaymentSchedule(Scanner input){
+        System.out.println("Inform a type of schedule: ");
+        System.out.println("1 - Monthly\n2 - Weekly\n3 - Every two weeks");
+        System.out.print(":");
+        int option = input.nextInt(), week;
+
+        DayOfWeek weekDay; 
+
+        switch(option){
+            case 1:
+                System.out.println("Choose the day of the month to put in the schedule (1 - 28): ");
+                int day = input.nextInt();
+
+                if(day < 0 || day > 28){
+                    return new PaymentSchedule(null, null, "Monthly");
+                }
+                else{
+                    return new PaymentSchedule(day, null, "Monthly");
+                }
+            case 2:
+                System.out.println("Choose the day of the week: ");
+                System.out.println("[1] - Monday\n[2] - Thuesday\n[3] - Wednesday\n[4] - Thursday\n[5] - Friday");
+                week = input.nextInt();
+
+                weekDay = DayOfWeek.of(week);
+
+                if(week < 0 || week > 5){
+                    return new PaymentSchedule(null, DayOfWeek.FRIDAY, "Weekly");
+                }else{
+                    return new PaymentSchedule(null, weekDay, "Weekly");
+                }
+            case 3:
+                System.out.println("Choose the day of the week: ");
+                System.out.println("1 - Monday\n2 - Thuesday\n3 - Wednesday\n4 - Thursday\n5 - Friday");
+                week = input.nextInt();
+
+                weekDay = DayOfWeek.of(week);
+                
+                if(week < 0 || week > 5){
+                    return new PaymentSchedule(null, DayOfWeek.FRIDAY, "Every two weeks");
+                }else{
+                    return new PaymentSchedule(null, weekDay, "Every two weeks");
+                }
+            default:
+                System.out.println("\n\nInvalid option, created an month schedule by default!!\n\n");
+                return new PaymentSchedule(null, null, "Monthly");
+        }
+
+    }
 }

@@ -1,6 +1,5 @@
 package controllers;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
@@ -47,84 +46,29 @@ public class PaymentController {
             LocalDate current = first.plusDays(count);
 
             if(current.getDayOfWeek() == first.getDayOfWeek()){
-                week++;
+                week++; 
             }
 
             for(Employee employee : company.getEmployees()){
                 if(verifyPayDate(employee, week, current)){
                     payCheck = employee.makePayment(current);
-    
-                    System.out.println(payCheck.toString());
                     payCheckList.add(payCheck);
                 }
             }   
         }
 
-        paymentList = new PaymentList(payCheckList, last);
 
+        paymentList = new PaymentList(payCheckList, last);
         ArrayList<PaymentList> paymentLists = company.getPaymentLists();
 
         paymentLists.add(paymentList);
 
         company.setPaymentLists(paymentLists);
 
-        System.out.println(company.getPaymentLists());
-    }
-
-    
-
-    public static PaymentSchedule createPaymentSchedule(Scanner input){
-        System.out.println("Inform a type of schedule: ");
-        System.out.println("[1] - Monthly\n[2] - Weekly\n[3] - Every to weeks");
-        System.out.print(":");
-        int option = input.nextInt(), week;
-
-        DayOfWeek weekDay; 
-
-        switch(option){
-            case 1:
-                System.out.println("Choose the day of the month to put in the schedule (1 - 28): ");
-                int day = input.nextInt();
-
-                if(day < 0 || day > 28){
-                    return new PaymentSchedule(null, null, "Monthly");
-                }
-                else{
-                    return new PaymentSchedule(day, null, "Monthly");
-                }
-            case 2:
-                System.out.println("Choose the day of the week: ");
-                System.out.println("[1] - Monday\n[2] - Thuesday\n[3] - Wednesday\n[4] - Thursday\n[5] - Friday");
-                week = input.nextInt();
-
-                weekDay = DayOfWeek.of(week);
-
-                if(week < 0 || week > 5){
-                    return new PaymentSchedule(null, DayOfWeek.FRIDAY, "Weekly");
-                }else{
-                    return new PaymentSchedule(null, weekDay, "Weekly");
-                }
-            case 3:
-                System.out.println("Choose the day of the week: ");
-                System.out.println("[1] - Monday\n[2] - Thuesday\n[3] - Wednesday\n[4] - Thursday\n[5] - Friday");
-                week = input.nextInt();
-
-                weekDay = DayOfWeek.of(week);
-                
-                if(week < 0 || week > 5){
-                    return new PaymentSchedule(null, DayOfWeek.FRIDAY, "Every two weeks");
-                }else{
-                    return new PaymentSchedule(null, weekDay, "Every two weeks");
-                }
-            default:
-                System.out.println("\n\nInvalid option, created an month schedule by default!!\n\n");
-                return new PaymentSchedule(null, null, "Monthly");
-        }
-
+        System.out.println(payCheckList);
     }
 
     public static boolean verifyPayDate(Employee employee, int week, LocalDate current){
-        boolean alreadyPay = false;
         boolean dateInSchedule = false;
         PaymentSchedule empSchedule = employee.getPaymentData().getPaymentSchedule();
 
@@ -144,14 +88,7 @@ public class PaymentController {
                 break;
         }
 
-        for(PayCheck pc : employee.getPaymentData().getPayChecks()){
-            if (pc.getDate() == current) {
-                alreadyPay = true;
-                break;
-            }
-        }
-
-        return (dateInSchedule && (!alreadyPay));
+        return dateInSchedule;
     }
 
 }
