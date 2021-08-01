@@ -112,24 +112,47 @@ public class Employee implements Serializable{
         boolean haveTax = false;
 
         if(this instanceof Comissioned){
-            paymentValue += calculateComission((Comissioned) this);
             Comissioned auxEmp = (Comissioned) this;
 
-            ArrayList<SaleResult> emptySale = new ArrayList<>();
+            ArrayList<SaleResult> sales = auxEmp.getSales();
 
-            auxEmp.setSales(emptySale);
+            if(!sales.isEmpty()){
+                for(int i = 0; i < sales.size(); i++){
+                    if(sales.get(i).getDate().compareTo(date) <= 0){
+                        paymentValue += calculateComission(auxEmp);
+    
+                        sales.remove(i);
+                    }
+                }   
+            }
+
+            auxEmp.setSales(sales);
         }
 
         if(this instanceof Hourly){
             Hourly auxEmp = (Hourly) this;
 
-            if(!auxEmp.getTimeCards().isEmpty()){
-                paymentValue += getPayment((Hourly) this);
+            ArrayList<TimeCard> timeCards = auxEmp.getTimeCards();
 
-                auxEmp.getTimeCards().remove(auxEmp.getTimeCards().size() - 1);
-            }else{
-                paymentValue = 0.0;
+            paymentValue = 0.0;
+
+            boolean found = false;
+
+            if(!timeCards.isEmpty()){
+                for(int i = 0; i < timeCards.size(); i++){
+                    if(timeCards.get(i).getDate().compareTo(date) <= 0){
+                        paymentValue = getPayment(auxEmp, timeCards.get(i));
+    
+                        timeCards.remove(i);
+
+                        found = true;
+                    }
+                }
+                
+                if(!found) paymentValue = 0.0;
             }
+
+            auxEmp.setTimeCards(timeCards);
         }
 
         paymentValue -= taxes;
@@ -139,27 +162,27 @@ public class Employee implements Serializable{
         return payCheck;
     }
 
-    private Double getPayment(Hourly employee){
+    private Double getPayment(Hourly employee, TimeCard timeCard){
         double payment = 0.0, hours = 0.0, extraHours = 0.0;
 
-        for(TimeCard timeCard : employee.getTimeCards()){
-            LocalTime timeEntry = timeCard.getTimeEntry();
-            LocalTime timeOut = timeCard.getTimeOut();
+        LocalTime timeEntry = timeCard.getTimeEntry();
+        LocalTime timeOut = timeCard.getTimeOut();
 
-            Duration time = Duration.between(timeEntry, timeOut);
+        Duration time = Duration.between(timeEntry, timeOut);
 
-            hours = (double) time.getSeconds()/3600;
+        hours = (double) time.getSeconds()/3600;
 
-            if(hours > 8.0){
-                extraHours = hours - 8.0;
-                payment += 8.0 * employee.getSalary();
+        System.out.println("Hours:" + hours);
 
-                payment += extraHours * 1.5 * employee.getSalary();
-            }
+        if(hours <= 0 ) return payment;
 
-            if(employee.getTimeCards().isEmpty()){
-                payment = 0.0;
-            }
+        if(hours > 8.0){
+            extraHours = hours - 8.0;
+            payment += 8.0 * employee.getSalary();
+
+            payment += extraHours * 1.5 * employee.getSalary();
+        }else{
+            payment = hours * employee.getSalary();
         }
 
         return payment;
@@ -194,9 +217,7 @@ public class Employee implements Serializable{
     public double calculateComission(Comissioned employee){
         double totalComission = 0.0;
 
-        for(int i = 0; i < employee.getSales().size(); i++){
-            totalComission += employee.getComission();
-        }
+        totalComission += employee.getComission();
 
         return totalComission;
     }
