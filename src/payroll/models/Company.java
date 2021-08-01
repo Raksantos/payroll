@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import models.services.payment.PaymentList;
 import models.services.payment.PaymentSchedule;
 
-public class Company {
+import java.io.Serializable;
+
+public class Company implements Serializable{
     private ArrayList<Employee> employees;
 
     private ArrayList<PaymentList> paymentLists;
 
     private ArrayList<PaymentSchedule> paymentSchedules; 
+
+    
 
     public Company(){
         this.employees = new ArrayList<Employee>();

@@ -22,8 +22,6 @@ public class EmployeeController {
 
     public static void removeEmployee(Scanner input, ArrayList<Employee> employees){
 
-        if(EmployeeUtils.warningEmptyEmployeesList(employees)) return;
-
         System.out.print("Inform the id of the employee: ");
         String id = input.nextLine();
 

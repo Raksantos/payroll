@@ -3,6 +3,7 @@ package utils;
 import java.time.DateTimeException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Stack;
 
 import controllers.EmployeeController;
 import controllers.PaymentController;
@@ -14,6 +15,10 @@ public class Menu {
         int option = 13;
 
         Scanner input = new Scanner(System.in);
+
+        Stack<String> undo = new Stack<>();
+
+        Stack<String> redo = new Stack<>();
         
         try{
             while(option != 0){
@@ -30,6 +35,8 @@ public class Menu {
                 System.out.println("[10] Edit payment schedule.");
                 System.out.println("[11] Register new payment list.");
                 System.out.println("[12] Show new payment schedules.");
+                System.out.println("[13] undo");
+                System.out.println("[14] redo");
             
                 System.out.print("\nYour option: ");
                 option = input.nextInt();
@@ -40,13 +47,20 @@ public class Menu {
                         System.out.println("Thank you! See you soon.");
                         break;
                     case 1:
+                        undo.push(GeneralUtils.saveState(company));
                         EmployeeController.registerNewEmployee(input, company.getEmployees());
                         
                         break;
                     case 2:
-                        EmployeeController.listEmployees(company.getEmployees());    
-    
-                        EmployeeController.removeEmployee(input, company.getEmployees());
+
+                        if(!EmployeeUtils.warningEmptyEmployeesList(company.getEmployees())){
+
+                            EmployeeController.listEmployees(company.getEmployees());    
+
+                            undo.push(GeneralUtils.saveState(company));
+                        
+                            EmployeeController.removeEmployee(input, company.getEmployees());
+                        }
                         
                         break;
                     case 3:
@@ -101,6 +115,28 @@ public class Menu {
                         break;
                     case 12:
                         System.out.println(company.getPaymentSchedules());
+                        break;
+
+                    case 13:
+                        if(!undo.isEmpty()){
+                            redo.push(GeneralUtils.saveState(company));
+                            String state = undo.pop();
+                            company = GeneralUtils.restoreState(state);
+                        }else{
+                            System.out.println("\n\nNothing to undo!\n\n");
+                        }
+                        
+                        break;
+
+                    case 14:
+                        if(!redo.isEmpty()){
+                            undo.push(GeneralUtils.saveState(company));
+                            String state = redo.pop();
+                            company = GeneralUtils.restoreState(state);
+                        }else{
+                            System.out.println("\n\nNothing to redo!\n\n");
+                        }
+
                         break;
                     default:
                         System.out.println("\n\nInvalid option!!\n\n");

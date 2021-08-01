@@ -1,10 +1,18 @@
 package utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Stream;
+
+import models.Company;
+
 import java.util.stream.Collectors;
 
 public class GeneralUtils {
@@ -37,5 +45,31 @@ public class GeneralUtils {
         }
 
         return lastJobDay;
+    }
+
+    public static String saveState(Company company){
+        try{
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(company);
+            oos.close();
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+        }catch(Exception err){
+            err.printStackTrace();
+            System.out.println("\n\nCouldn't save the state.\n\n");
+            return "";
+        }
+    }
+
+    public static Company restoreState(String state){
+        try{
+            byte[] data = Base64.getDecoder().decode(state);
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+            return (Company) ois.readObject();
+        }catch(Exception err){
+            err.printStackTrace();
+            System.out.println("\n\nCouldn't restore the state.\n\n");
+            return null;
+        }
     }
 }
