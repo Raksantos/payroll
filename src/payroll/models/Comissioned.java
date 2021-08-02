@@ -14,8 +14,8 @@ public class Comissioned extends Employee{
         
     }
 
-    public Comissioned(String name, String address, Double salary, Double comission, PaymentData paymenteData){
-        super(name, address, salary, paymenteData);
+    public Comissioned(String name, String address, Double salary, Double comission, PaymentData paymentData){
+        super(name, address, salary, paymentData);
         this.comission = comission;
         this.sales = new ArrayList<SaleResult>();
     }
