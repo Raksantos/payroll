@@ -26,12 +26,12 @@ public class PaymentController {
         PaymentList paymentList = null;
         ArrayList<PayCheck> payCheckList = new ArrayList<PayCheck>();
 
-        System.out.print("Informe the first date of the month(YYYY-MM-DD): ");
+        System.out.print("Inform the first date of the month(YYYY-MM-DD): ");
         stringDate = input.nextLine();
 
         ArrayList<Integer> firstDate = GeneralUtils.convertDateToArray(stringDate);
 
-        System.out.print("Informe the last date of the month(YYYY-MM-DD): ");
+        System.out.print("Inform the last date of the month(YYYY-MM-DD): ");
         stringDate = input.nextLine();
 
         ArrayList<Integer> lastDate = GeneralUtils.convertDateToArray(stringDate);

@@ -18,7 +18,7 @@ public class Syndicate implements Serializable{
 
     private ArrayList<ServiceTax> serviceTax;
 
-    Syndicate(){
+    public Syndicate(){
         
     }
 
