@@ -24,6 +24,7 @@ public class Employee implements Serializable{
     private String address;
     private Double salary;
     private PaymentData paymentData;
+    private ArrayList<ServiceTax> serviceTax;
     private Syndicate employeeSyndicate;
     
     public Employee(){
@@ -37,6 +38,7 @@ public class Employee implements Serializable{
         this.salary = salary;
         this.paymentData = paymentData;
         this.employeeSyndicate = null;
+        this.serviceTax = new ArrayList<ServiceTax>();
     }
 
     public UUID getId() {
@@ -93,6 +95,7 @@ public class Employee implements Serializable{
         data += "\n\tName: " + getName();
         data += "\n\tAddress: " + getAddress();
         data += "\n\tSalary: " + getSalary();
+        data += "\n\tService Tax: " + getServiceTax();
         data += "\n\tPayment Data: {" + getPaymentData();
 
         if(this.employeeSyndicate.getIsAffiliated()){
@@ -103,6 +106,14 @@ public class Employee implements Serializable{
 
         data += "\n}\n";
         return data;
+    }
+
+    public ArrayList<ServiceTax> getServiceTax() {
+        return serviceTax;
+    }
+
+    public void setServiceTax(ArrayList<ServiceTax> serviceTax) {
+        this.serviceTax = serviceTax;
     }
 
     public PayCheck makePayment(LocalDate date){
@@ -194,21 +205,19 @@ public class Employee implements Serializable{
         ArrayList<ServiceTax> serviceTaxes;
         ArrayList<PayCheck> payChecks = this.getPaymentData().getPayChecks();
 
-        if(this.getEmployeeSyndicate().getIsAffiliated() == true){
-            if(!payChecks.isEmpty()){
-                LocalDate lastDate = payChecks.get(payChecks.size() - 1).getDate();
-                Predicate<ServiceTax> dateFilter = tax -> tax.getDate().isAfter(lastDate);
+        if(!payChecks.isEmpty()){
+            LocalDate lastDate = payChecks.get(payChecks.size() - 1).getDate();
+            Predicate<ServiceTax> dateFilter = tax -> tax.getDate().isAfter(lastDate);
 
-                serviceTaxes = this.getEmployeeSyndicate().getServiceTax().stream().filter(dateFilter).collect(toCollection(ArrayList::new));
-            } else {
-                serviceTaxes = this.getEmployeeSyndicate().getServiceTax();
-            }
-
-            for(ServiceTax tax : serviceTaxes){
-                taxes += tax.getValue();
-            }
+            serviceTaxes = this.getServiceTax().stream().filter(dateFilter).collect(toCollection(ArrayList::new));
+        } else {
+            serviceTaxes = this.getServiceTax();
         }
-        
+
+        for(ServiceTax tax : serviceTaxes){
+            taxes += tax.getValue();
+        }
+                
         taxes += this.getEmployeeSyndicate().getTax();
 
         return taxes;

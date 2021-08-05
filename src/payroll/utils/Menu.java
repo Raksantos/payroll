@@ -34,7 +34,7 @@ public class Menu {
                 System.out.println("[9] Show payment lists.");
                 System.out.println("[10] Edit payment schedule.");
                 System.out.println("[11] Register new payment list.");
-                System.out.println("[12] Show new payment schedules.");
+                System.out.println("[12] Show new payment lists.");
                 System.out.println("[13] undo");
                 System.out.println("[14] redo");
             

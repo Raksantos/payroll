@@ -2,10 +2,7 @@ package models;
 
 import java.util.UUID;
 
-import models.services.ServiceTax;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Syndicate implements Serializable{
     private UUID id;
@@ -16,8 +13,6 @@ public class Syndicate implements Serializable{
 
     private Double tax;
 
-    private ArrayList<ServiceTax> serviceTax;
-
     public Syndicate(){
         
     }
@@ -27,7 +22,6 @@ public class Syndicate implements Serializable{
         this.employeeId = employeeId;
         this.isAffiliated = isAffiliated;
         this.tax = tax;
-        this.serviceTax = new ArrayList<ServiceTax>();
     }
 
     public UUID getId() {
@@ -62,21 +56,12 @@ public class Syndicate implements Serializable{
         this.isAffiliated = isAffiliated;
     }
 
-    public ArrayList<ServiceTax> getServiceTax() {
-        return serviceTax;
-    }
-
-    public void setServiceTax(ArrayList<ServiceTax> serviceTax) {
-        this.serviceTax = serviceTax;
-    }
-
     @Override
     public String toString(){
         String data = "\n\t\tSyndicate Employee id: " + getId();
         data += "\n\t\tEmployee id: " + getEmployeeId();
         data += "\n\t\tAffiliated: " + getIsAffiliated();
         data += "\n\t\tTax: " + getTax();
-        data += "\n\t\tService Tax: " + getServiceTax();
         
         return data;
     }

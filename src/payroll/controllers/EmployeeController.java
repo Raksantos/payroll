@@ -132,11 +132,6 @@ public class EmployeeController {
         updateEmployee = EmployeeUtils.findEmployee(input, employees);
 
         if(updateEmployee == null) return;
-
-        if(!updateEmployee.getEmployeeSyndicate().getIsAffiliated()){
-            System.out.println("\nThe employee is not filiated to the syndicate.\n");
-            return;
-        }
         
         System.out.print("Inform the value of the service tax: ");
         Double value = input.nextDouble();
@@ -151,7 +146,7 @@ public class EmployeeController {
 
         ServiceTax serviceTax = new ServiceTax(value, serviceTaxDate);
 
-        ArrayList<ServiceTax> serviceTaxList = updateEmployee.getEmployeeSyndicate().getServiceTax();
+        ArrayList<ServiceTax> serviceTaxList = updateEmployee.getServiceTax();
         
         serviceTaxList.add(serviceTax);
 
